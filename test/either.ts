@@ -39,8 +39,25 @@ module TsMonad.Test {
                 left: s => s === 'nooo',
                 right: n => false
             }));
+    });
 
+    QUnit.test('Lift', assert => {
 
+        assert.ok(Either.unit<string, number>(2)
+            .lift(n => n * 2)
+            .lift(n => n * 2)
+            .caseOf({
+                left: s => false,
+                right: n => n === 8
+            }));
+
+        assert.ok(Either.unit<string, number>(2)
+            .lift(n => n * 2)
+            .lift(n => 'nooo')
+            .caseOf({
+                left: s => true,
+                right: n => false
+            }));
     });
 
     var eh = Either.unit<string,number>(10)

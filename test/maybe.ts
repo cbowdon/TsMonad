@@ -42,6 +42,25 @@ module TsMonad.Test {
             }));
     });
 
+    QUnit.test('Lift', assert => {
+
+        assert.ok(Maybe.just(2)
+            .lift(n => n * 2)
+            .lift(n => n * 2)
+            .caseOf({
+                just: n => n === 8,
+                nothing: () => false
+            }));
+
+        assert.ok(Maybe.just(2)
+            .lift(n => n * 2)
+            .lift(n => <number>null)
+            .caseOf({
+                just: n => false,
+                nothing: () => true
+            }));
+    });
+
     var mayhaps = Maybe.just(10)
         .bind(x => Maybe.nothing<number>())
         .bind(x => Maybe.just(20))
