@@ -2,6 +2,8 @@
 /// <reference path="../maybe.ts" />
 
 module TsMonad.Test {
+    'use strict';
+
     var Maybe = TsMonad.Maybe;
 
     QUnit.module('Maybe');

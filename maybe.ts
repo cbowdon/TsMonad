@@ -1,4 +1,5 @@
 module TsMonad {
+    'use strict';
 
     export interface MaybePatterns<T,U> {
         just: (t: T) => U;
@@ -24,6 +25,12 @@ module TsMonad {
         bind<U>(f: (t: T) => Maybe<U>) {
             return this.value ?
                 f(this.value) :
+                Maybe.nothing<U>();
+        }
+
+        lift<U>(f: (t: T) => U) {
+            return this.value ?
+                Maybe.unit(f(this.value)) :
                 Maybe.nothing<U>();
         }
 

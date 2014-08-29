@@ -1,4 +1,5 @@
 module TsMonad {
+    'use strict';
 
     export interface EitherPatterns<L,R,T> {
         left: (l: L) => T;
@@ -21,8 +22,16 @@ module TsMonad {
             return this.right<L,R>(r);
         }
 
-        bind(f: (r: R) => Either<L,R>) {
-            return f(this.r);
+        bind<T>(f: (r: R) => Either<L,T>) {
+            return this.r ?
+                f(this.r) :
+                Either.left<L,T>(this.l);
+        }
+
+        lift<T>(f: (r: R) => T) {
+            return this.r ?
+                Either.unit<L,T>(f(this.r)) :
+                Either.left<L,T>(this.l);
         }
 
         caseOf<T>(pattern: EitherPatterns<L,R,T>) {

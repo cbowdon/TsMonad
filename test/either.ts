@@ -1,6 +1,8 @@
 /// <reference path="../either.ts" />
 
 module TsMonad.Test {
+    'use strict';
+
     var Either = TsMonad.Either;
 
     QUnit.module('Either');
@@ -18,6 +20,27 @@ module TsMonad.Test {
                 left: s => false,
                 right: n => true
             }));
+    });
+
+    QUnit.test('Bind', assert => {
+
+        assert.ok(Either.unit<string, number>(2)
+            .bind(n => Either.unit<string, number>(n * 2))
+            .bind(n => Either.unit<string, number>(n * 2))
+            .caseOf({
+                left: s => false,
+                right: n => n === 8
+            }));
+
+        assert.ok(Either.unit<string, number>(2)
+            .bind(n => Either.unit<string, number>(n * 2))
+            .bind(n => Either.left<string, number>('nooo'))
+            .caseOf({
+                left: s => s === 'nooo',
+                right: n => false
+            }));
+
+
     });
 
     var eh = Either.unit<string,number>(10)
