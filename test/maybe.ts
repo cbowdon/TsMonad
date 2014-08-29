@@ -1,4 +1,5 @@
 /// <reference path="../maybe.ts" />
+
 module TsMonad.Test {
 
     var Maybe = TsMonad.Maybe;
@@ -13,9 +14,11 @@ module TsMonad.Test {
 
     console.log(mayhaps);
 
+    /*
     Maybe.just('hello')
         .caseOf({
             just: s => s
             // COMPILER ERROR
         });
+    */
 }

@@ -1,7 +1,7 @@
 module TsMonad {
 
-    interface MaybePatterns<T,U> {
-        just: (T) => U;
+    export interface MaybePatterns<T,U> {
+        just: (t: T) => U;
         nothing: () => U;
     }
 
@@ -17,14 +17,14 @@ module TsMonad {
             return new Maybe<T>();
         }
 
-        static unit(t: T) {
+        static unit<T>(t: T) {
             return Maybe.just(t);
         }
 
-        bind<U>(f: (T) => Maybe<U>) {
+        bind<U>(f: (t: T) => Maybe<U>) {
             return this.value ?
                 f(this.value) :
-                Maybe.nothing();
+                Maybe.nothing<U>();
         }
 
         caseOf<U>(patterns: MaybePatterns<T, U>) {
