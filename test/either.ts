@@ -53,10 +53,12 @@ module TsMonad.Test {
 
         assert.ok(Either.unit<string, number>(2)
             .lift(n => n * 2)
-            .lift(n => 'nooo')
+            .lift(n => <number>null)
             .caseOf({
-                left: s => true,
-                right: n => false
+                left: s => false,
+                right: n => !n
+                // unlike Maybe, lifting a null into Either has no special behaviour
+                // so try to avoid this kind of sociopathic behaviour
             }));
     });
 
