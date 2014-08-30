@@ -4,19 +4,17 @@
 module TsMonad.Test {
     'use strict';
 
-    var Maybe = TsMonad.Maybe;
-
     QUnit.module('Maybe');
 
     QUnit.test('Case of', assert => {
 
-        assert.ok(Maybe.just(10)
+        assert.ok(TsMonad.Maybe.just(10)
             .caseOf({
                 just: x => true,
                 nothing: () => false
             }));
 
-        assert.ok(Maybe.nothing()
+        assert.ok(TsMonad.Maybe.nothing()
             .caseOf({
                 just: x => false,
                 nothing: () => true
@@ -25,17 +23,17 @@ module TsMonad.Test {
 
     QUnit.test('Bind', assert => {
 
-        assert.ok(Maybe.just(2)
-            .bind(n => Maybe.just(n * 2))
-            .bind(n => Maybe.just(n * 2))
+        assert.ok(TsMonad.Maybe.just(2)
+            .bind(n => TsMonad.Maybe.just(n * 2))
+            .bind(n => TsMonad.Maybe.just(n * 2))
             .caseOf({
                 just: n => n === 8,
                 nothing: () => false
             }));
 
-        assert.ok(Maybe.just(2)
-            .bind(n => Maybe.just(n * 2))
-            .bind(n => Maybe.nothing())
+        assert.ok(TsMonad.Maybe.just(2)
+            .bind(n => TsMonad.Maybe.just(n * 2))
+            .bind(n => TsMonad.Maybe.nothing())
             .caseOf({
                 just: n => false,
                 nothing: () => true
@@ -44,7 +42,7 @@ module TsMonad.Test {
 
     QUnit.test('Lift', assert => {
 
-        assert.ok(Maybe.just(2)
+        assert.ok(TsMonad.Maybe.just(2)
             .lift(n => n * 2)
             .lift(n => n * 2)
             .caseOf({
@@ -52,7 +50,7 @@ module TsMonad.Test {
                 nothing: () => false
             }));
 
-        assert.ok(Maybe.just(2)
+        assert.ok(TsMonad.Maybe.just(2)
             .lift(n => n * 2)
             .lift(n => <number>null)
             .caseOf({

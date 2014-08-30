@@ -1,8 +1,8 @@
 module.exports = function (grunt) {
     'use strict';
 
-    var sources = '*.ts',
-        tests   = 'test/*.ts';
+    var sources = [ 'maybe.ts', 'either.ts' ],
+        tests   = [ 'test/*.ts' ];
 
     grunt.loadNpmTasks('grunt-typescript');
 
@@ -13,20 +13,21 @@ module.exports = function (grunt) {
             options: {
                 sourceMap: true,
                 noImplicitAny: true,
-                declaration: true
+                declaration: true,
+                comments: true
             },
             main: {
-                src: [ sources ],
+                src: sources,
                 dest: 'dist/tsmonad.js'
             },
             test: {
-                src: [ tests ],
+                src: tests,
                 dest: 'test/dist/tsmonad-test.js'
             }
         },
         watch: {
             tasks: 'typescript',
-            files: [ sources, tests ]
+            files: sources.concat(tests)
         }
     });
 
