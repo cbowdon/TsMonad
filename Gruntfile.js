@@ -1,7 +1,7 @@
 module.exports = function (grunt) {
     'use strict';
 
-    var sources = [ 'maybe.ts', 'either.ts' ],
+    var sources = [ 'tsmonad.ts', 'maybe.ts', 'either.ts' ],
         tests   = [ 'test/*.ts' ];
 
     grunt.loadNpmTasks('grunt-typescript');

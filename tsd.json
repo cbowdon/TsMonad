@@ -7,6 +7,9 @@
   "installed": {
     "qunit/qunit.d.ts": {
       "commit": "e84bd12323e10abb7d0951a2aaa283319a6faf09"
+    },
+    "node/node.d.ts": {
+      "commit": "1c3488c2d84232b9f66b6d7e758839381e95b3bf"
     }
   }
 }
