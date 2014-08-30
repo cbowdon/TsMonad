@@ -45,5 +45,12 @@ module TsMonad {
                 patterns.just(this.value) :
                 patterns.nothing();
         }
+
+    /*
+     *  aVarThatMightBeNothing.caseOf({
+     *      just: s => s
+     *      // no 'nothing' implementation - COMPILER ERROR
+     *  });
+     */
     }
 }

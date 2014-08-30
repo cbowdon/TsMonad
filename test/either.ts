@@ -61,12 +61,4 @@ module TsMonad.Test {
                 // so try to avoid this kind of sociopathic behaviour
             }));
     });
-
-    var eh = Either.unit<string,number>(10)
-        .bind(r => Either.unit<string, number>(r * 2))
-        .bind(r => Either.left<string, number>('nope'))
-        .caseOf({
-            left: s => -1,
-            right: n => n * 2
-        });
 }
