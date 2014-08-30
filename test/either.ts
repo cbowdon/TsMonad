@@ -1,4 +1,5 @@
-/// <reference path="../either.ts" />
+/// <reference path="../typings/tsd.d.ts" />
+/// <reference path="../dist/tsmonad.d.ts" />
 
 module TsMonad.Test {
     'use strict';

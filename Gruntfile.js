@@ -12,7 +12,8 @@ module.exports = function (grunt) {
         typescript: {
             options: {
                 sourceMap: true,
-                noImplicitAny: true
+                noImplicitAny: true,
+                declaration: true
             },
             main: {
                 src: [ sources ],
@@ -20,7 +21,7 @@ module.exports = function (grunt) {
             },
             test: {
                 src: [ tests ],
-                dest: 'test/dist/tsmonad.js'
+                dest: 'test/dist/tsmonad-test.js'
             }
         },
         watch: {
@@ -29,5 +30,5 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('default', 'Compiles TypeScript', [ 'typescript', 'watch' ]);
+    grunt.registerTask('default', 'Compiles TypeScript', [ 'typescript' ]);
 };
