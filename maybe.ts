@@ -1,50 +1,69 @@
+/// <reference path="monad.ts" />
+
 module TsMonad {
     'use strict';
 
-    export enum MaybeType { Just, Nothing }
+    export enum MaybeType { Nothing, Just }
 
     export interface MaybePatterns<T,U> {
         just: (t: T) => U;
         nothing: () => U;
     }
 
-    export class Maybe<T> {
+    export class MaybeX<X,T> implements Monad<X,T> {
+        constructor(private type: MaybeType,
+                    private value?: T) {}
 
-        constructor(private type: MaybeType, private value?: T) {}
-
-        static just<T>(t: T) {
-            return new Maybe(MaybeType.Just, t);
+        // </Data constructors>
+        static maybe<X,T>(t: T) {
+            return t === null || t === undefined ?
+                new MaybeX<X,T>(MaybeType.Nothing) :
+                new MaybeX<X,T>(MaybeType.Just, t);
         }
 
-        static nothing<T>() {
-            return new Maybe<T>(MaybeType.Nothing);
+        static just<X,T>(t: T) {
+            if (t === null || t === undefined) {
+                throw new TypeError('Cannot Maybe.just(null)');
+            }
+            return new MaybeX<X,T>(MaybeType.Just, t);
         }
 
-        static unit = Maybe.just;
+        static nothing<X,T>() {
+            return new MaybeX<X,T>(MaybeType.Nothing);
+        }
+        // </Data constructors>
 
-        bind<U>(f: (t: T) => Maybe<U>) {
+        // <Monad laws>
+        unit<U>(u: U) {
+            return MaybeX.maybe<X,U>(u); // Slight deviation from Haskell, since sadly null does exist in JS
+        }
+
+        bind<U>(f: (t: T) => MaybeX<X,U>) {
             return this.type === MaybeType.Just ?
                 f(this.value) :
-                Maybe.nothing<U>();
+                MaybeX.nothing<X,U>();
         }
 
-        lift<U>(f: (t: T) => U) {
-            var res: U;
-            if (this.type === MaybeType.Just) {
-                res = f(this.value);
-                // the lifted function returns null, become Nothing
-                if (res !== null && res !== undefined) {
-                    return Maybe.unit(res);
-                }
-            }
-            return Maybe.nothing<U>();
+        fmap<U>(f: (t: T) => U) {
+            return this.bind(v => this.unit<U>(f(v)));
         }
+
+        lift = this.fmap;
+        // </Monad laws>
 
         caseOf<U>(patterns: MaybePatterns<T, U>) {
             return this.type === MaybeType.Just ?
                 patterns.just(this.value) :
                 patterns.nothing();
         }
+    }
+
+    export class Maybe<T> extends MaybeX<number,T> {
+
+        static maybe<T>(t: T) {
+            return MaybeX.maybe<number,T>(t);
+        }
+    }
 
     /*
      *  aVarThatMightBeNothing.caseOf({
@@ -52,5 +71,4 @@ module TsMonad {
      *      // no 'nothing' implementation - COMPILER ERROR
      *  });
      */
-    }
 }

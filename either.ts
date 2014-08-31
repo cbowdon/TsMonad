@@ -10,10 +10,12 @@ module TsMonad {
 
     export class Either<L,R> {
 
+        // Constructor for internal use only - use the data constructors below
         constructor(private type: EitherType,
                     private l?: L,
                     private r?: R) {}
 
+        // <Data constructors>
         static left<L,R>(l: L) {
             return new Either<L,R>(EitherType.Left, l);
         }
@@ -21,8 +23,12 @@ module TsMonad {
         static right<L,R>(r: R) {
             return new Either<L,R>(EitherType.Right, null, r);
         }
+        // </Data constructors>
 
-        static unit = Either.right;
+        // <Monad laws>
+        unit<T>(t: T) {
+            return Either.right<L,T>(t);
+        }
 
         bind<T>(f: (r: R) => Either<L,T>) {
             return this.type === EitherType.Right ?
@@ -30,11 +36,12 @@ module TsMonad {
                 Either.left<L,T>(this.l);
         }
 
-        lift<T>(f: (r: R) => T) {
-            return this.type === EitherType.Right ?
-                Either.unit<L,T>(f(this.r)) :
-                Either.left<L,T>(this.l);
+        fmap<T>(f: (r: R) => T) {
+            return this.bind(v => this.unit<T>(f(v)));
         }
+
+        lift = this.fmap;
+        // </Monad laws>
 
         caseOf<T>(pattern: EitherPatterns<L,R,T>) {
             return this.type === EitherType.Right ?

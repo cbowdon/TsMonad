@@ -1,7 +1,7 @@
 {
-  "name": "TsMonad",
-  "version": "0.0.0",
-  "description": "Fun-size monads library for TypeScript",
+  "name": "tsmonad",
+  "version": "0.1.0",
+  "description": "TsMonad - fun-size monads library for TypeScript",
   "main": "dist/tsmonad.js",
   "directories": {
     "test": "test"
@@ -18,7 +18,7 @@
     "monad",
     "functional"
   ],
-  "author": "c.bowdon@bath.edu",
+  "author": "Chris Bowdon",
   "license": "MIT",
   "devDependencies": {
     "blanket": "^1.1.6",

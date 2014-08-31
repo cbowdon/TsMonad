@@ -8,13 +8,13 @@ module TsMonad.Test {
 
     QUnit.test('Case of', assert => {
 
-        assert.ok(TsMonad.Maybe.just(10)
+        assert.ok(Maybe.just(10)
             .caseOf({
                 just: x => true,
                 nothing: () => false
             }));
 
-        assert.ok(TsMonad.Maybe.nothing()
+        assert.ok(Maybe.nothing()
             .caseOf({
                 just: x => false,
                 nothing: () => true
@@ -23,17 +23,17 @@ module TsMonad.Test {
 
     QUnit.test('Bind', assert => {
 
-        assert.ok(TsMonad.Maybe.just(2)
-            .bind(n => TsMonad.Maybe.just(n * 2))
-            .bind(n => TsMonad.Maybe.just(n * 2))
+        assert.ok(Maybe.just(2)
+            .bind(n => Maybe.just(n * 2))
+            .bind(n => Maybe.just(n * 2))
             .caseOf({
                 just: n => n === 8,
                 nothing: () => false
             }));
 
-        assert.ok(TsMonad.Maybe.just(2)
-            .bind(n => TsMonad.Maybe.just(n * 2))
-            .bind(n => TsMonad.Maybe.nothing())
+        assert.ok(Maybe.just(2)
+            .bind(n => Maybe.just(n * 2))
+            .bind(n => Maybe.nothing())
             .caseOf({
                 just: n => false,
                 nothing: () => true
@@ -42,7 +42,7 @@ module TsMonad.Test {
 
     QUnit.test('Lift', assert => {
 
-        assert.ok(TsMonad.Maybe.just(2)
+        assert.ok(Maybe.just(2)
             .lift(n => n * 2)
             .lift(n => n * 2)
             .caseOf({
@@ -50,12 +50,29 @@ module TsMonad.Test {
                 nothing: () => false
             }));
 
-        assert.ok(TsMonad.Maybe.just(2)
+        assert.ok(Maybe.just(2)
             .lift(n => n * 2)
             .lift(n => <number>null)
             .caseOf({
                 just: n => false,
                 nothing: () => true
+            }));
+    });
+
+    QUnit.test('Constructors', assert => {
+
+        assert.throws(() => { Maybe.just(<string>null) }, /null/);
+
+        assert.ok(Maybe.maybe<string>(null)
+            .caseOf({
+                just: s => false,
+                nothing: () => true
+            }));
+
+        assert.ok(Maybe.maybe('something')
+            .caseOf({
+                just: s => true,
+                nothing: () => false
             }));
     });
 }

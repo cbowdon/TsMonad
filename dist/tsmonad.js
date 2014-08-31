@@ -9,11 +9,14 @@ var TsMonad;
     var EitherType = TsMonad.EitherType;
 
     var Either = (function () {
+        // Constructor for internal use only - use the data constructors below
         function Either(type, l, r) {
             this.type = type;
             this.l = l;
             this.r = r;
+            this.lift = this.fmap;
         }
+        // <Data constructors>
         Either.left = function (l) {
             return new Either(0 /* Left */, l);
         };
@@ -22,68 +25,105 @@ var TsMonad;
             return new Either(1 /* Right */, null, r);
         };
 
+        // </Data constructors>
+        // <Monad laws>
+        Either.prototype.unit = function (t) {
+            return Either.right(t);
+        };
+
         Either.prototype.bind = function (f) {
             return this.type === 1 /* Right */ ? f(this.r) : Either.left(this.l);
         };
 
-        Either.prototype.lift = function (f) {
-            return this.type === 1 /* Right */ ? Either.unit(f(this.r)) : Either.left(this.l);
+        Either.prototype.fmap = function (f) {
+            var _this = this;
+            return this.bind(function (v) {
+                return _this.unit(f(v));
+            });
         };
 
+        // </Monad laws>
         Either.prototype.caseOf = function (pattern) {
             return this.type === 1 /* Right */ ? pattern.right(this.r) : pattern.left(this.l);
         };
-        Either.unit = Either.right;
         return Either;
     })();
     TsMonad.Either = Either;
 })(TsMonad || (TsMonad = {}));
+/// <reference path="monad.ts" />
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
 var TsMonad;
 (function (TsMonad) {
     'use strict';
 
     (function (MaybeType) {
-        MaybeType[MaybeType["Just"] = 0] = "Just";
-        MaybeType[MaybeType["Nothing"] = 1] = "Nothing";
+        MaybeType[MaybeType["Nothing"] = 0] = "Nothing";
+        MaybeType[MaybeType["Just"] = 1] = "Just";
     })(TsMonad.MaybeType || (TsMonad.MaybeType = {}));
     var MaybeType = TsMonad.MaybeType;
 
-    var Maybe = (function () {
-        function Maybe(type, value) {
+    var MaybeX = (function () {
+        function MaybeX(type, value) {
             this.type = type;
             this.value = value;
+            this.lift = this.fmap;
         }
-        Maybe.just = function (t) {
-            return new Maybe(0 /* Just */, t);
+        // </Data constructors>
+        MaybeX.maybe = function (t) {
+            return t === null || t === undefined ? new MaybeX(0 /* Nothing */) : new MaybeX(1 /* Just */, t);
         };
 
-        Maybe.nothing = function () {
-            return new Maybe(1 /* Nothing */);
-        };
-
-        Maybe.prototype.bind = function (f) {
-            return this.type === 0 /* Just */ ? f(this.value) : Maybe.nothing();
-        };
-
-        Maybe.prototype.lift = function (f) {
-            var res;
-            if (this.type === 0 /* Just */) {
-                res = f(this.value);
-
-                // the lifted function returns null, become Nothing
-                if (res !== null && res !== undefined) {
-                    return Maybe.unit(res);
-                }
+        MaybeX.just = function (t) {
+            if (t === null || t === undefined) {
+                throw new TypeError('Cannot Maybe.just(null)');
             }
-            return Maybe.nothing();
+            return new MaybeX(1 /* Just */, t);
         };
 
-        Maybe.prototype.caseOf = function (patterns) {
-            return this.type === 0 /* Just */ ? patterns.just(this.value) : patterns.nothing();
+        MaybeX.nothing = function () {
+            return new MaybeX(0 /* Nothing */);
         };
-        Maybe.unit = Maybe.just;
-        return Maybe;
+
+        // </Data constructors>
+        // <Monad laws>
+        MaybeX.prototype.unit = function (u) {
+            return MaybeX.maybe(u);
+        };
+
+        MaybeX.prototype.bind = function (f) {
+            return this.type === 1 /* Just */ ? f(this.value) : MaybeX.nothing();
+        };
+
+        MaybeX.prototype.fmap = function (f) {
+            var _this = this;
+            return this.bind(function (v) {
+                return _this.unit(f(v));
+            });
+        };
+
+        // </Monad laws>
+        MaybeX.prototype.caseOf = function (patterns) {
+            return this.type === 1 /* Just */ ? patterns.just(this.value) : patterns.nothing();
+        };
+        return MaybeX;
     })();
+    TsMonad.MaybeX = MaybeX;
+
+    var Maybe = (function (_super) {
+        __extends(Maybe, _super);
+        function Maybe() {
+            _super.apply(this, arguments);
+        }
+        Maybe.maybe = function (t) {
+            return MaybeX.maybe(t);
+        };
+        return Maybe;
+    })(MaybeX);
     TsMonad.Maybe = Maybe;
 })(TsMonad || (TsMonad = {}));
 /// <reference path="typings/tsd.d.ts" />
