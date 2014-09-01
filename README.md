@@ -20,11 +20,11 @@ Node:
 
 Browser:
 
-    `<script src="node_modules/tsmonad/dist/tsmonad.js"`>`</script`>
+    <script src="node_modules/tsmonad/dist/tsmonad.js"></script>
 
 TypeScript definitions:
 
-    /// `<reference path="node_modules/tsmonad/dist/tsmonad.d.js" /`>
+    /// <reference path="node_modules/tsmonad/dist/tsmonad.d.js" />
 
 ## Examples
 You can see the unit tests for the examples below at test/examples.ts.
