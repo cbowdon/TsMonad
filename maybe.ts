@@ -10,38 +10,39 @@ module TsMonad {
         nothing: () => U;
     }
 
-    export class MaybeX<X,T> implements Monad<X,T> {
+    export class Maybe<T> implements Monad<T>, Functor<T> {
+
         constructor(private type: MaybeType,
                     private value?: T) {}
 
         // </Data constructors>
-        static maybe<X,T>(t: T) {
+        static maybe<T>(t: T) {
             return t === null || t === undefined ?
-                new MaybeX<X,T>(MaybeType.Nothing) :
-                new MaybeX<X,T>(MaybeType.Just, t);
+                new Maybe<T>(MaybeType.Nothing) :
+                new Maybe<T>(MaybeType.Just, t);
         }
 
-        static just<X,T>(t: T) {
+        static just<T>(t: T) {
             if (t === null || t === undefined) {
                 throw new TypeError('Cannot Maybe.just(null)');
             }
-            return new MaybeX<X,T>(MaybeType.Just, t);
+            return new Maybe<T>(MaybeType.Just, t);
         }
 
-        static nothing<X,T>() {
-            return new MaybeX<X,T>(MaybeType.Nothing);
+        static nothing<T>() {
+            return new Maybe<T>(MaybeType.Nothing);
         }
         // </Data constructors>
 
         // <Monad laws>
         unit<U>(u: U) {
-            return MaybeX.maybe<X,U>(u); // Slight deviation from Haskell, since sadly null does exist in JS
+            return Maybe.maybe<U>(u); // Slight deviation from Haskell, since sadly null does exist in JS
         }
 
-        bind<U>(f: (t: T) => MaybeX<X,U>) {
+        bind<U>(f: (t: T) => Maybe<U>) {
             return this.type === MaybeType.Just ?
                 f(this.value) :
-                MaybeX.nothing<X,U>();
+                Maybe.nothing<U>();
         }
 
         fmap<U>(f: (t: T) => U) {
@@ -55,13 +56,6 @@ module TsMonad {
             return this.type === MaybeType.Just ?
                 patterns.just(this.value) :
                 patterns.nothing();
-        }
-    }
-
-    export class Maybe<T> extends MaybeX<number,T> {
-
-        static maybe<T>(t: T) {
-            return MaybeX.maybe<number,T>(t);
         }
     }
 

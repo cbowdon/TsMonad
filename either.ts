@@ -8,7 +8,7 @@ module TsMonad {
         right: (r: R) => T;
     }
 
-    export class Either<L,R> {
+    export class Either<L,R> implements Monad<R>, Functor<R> {
 
         // Constructor for internal use only - use the data constructors below
         constructor(private type: EitherType,

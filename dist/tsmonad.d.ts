@@ -8,7 +8,7 @@ declare module TsMonad {
         left: (l: L) => T;
         right: (r: R) => T;
     }
-    class Either<L, R> {
+    class Either<L, R> implements Monad<R>, Functor<R> {
         private type;
         private l;
         private r;
@@ -23,9 +23,13 @@ declare module TsMonad {
     }
 }
 declare module TsMonad {
-    interface Monad<A, B> {
-        bind<C>(f: (t: B) => Monad<A, C>): Monad<A, C>;
-        unit<C>(t: C): Monad<A, C>;
+    interface Monad<T> {
+        bind<U>(f: (t: T) => Monad<U>): Monad<U>;
+        unit<U>(t: U): Monad<U>;
+    }
+    interface Functor<T> {
+        fmap<U>(f: (t: T) => U): Functor<U>;
+        lift<U>(f: (t: T) => U): Functor<U>;
     }
 }
 declare module TsMonad {
@@ -37,20 +41,17 @@ declare module TsMonad {
         just: (t: T) => U;
         nothing: () => U;
     }
-    class MaybeX<X, T> implements Monad<X, T> {
+    class Maybe<T> implements Monad<T>, Functor<T> {
         private type;
         private value;
         constructor(type: MaybeType, value?: T);
-        static maybe<X, T>(t: T): MaybeX<X, T>;
-        static just<X, T>(t: T): MaybeX<X, T>;
-        static nothing<X, T>(): MaybeX<X, T>;
-        public unit<U>(u: U): MaybeX<X, U>;
-        public bind<U>(f: (t: T) => MaybeX<X, U>): MaybeX<X, U>;
-        public fmap<U>(f: (t: T) => U): MaybeX<X, U>;
-        public lift: <U>(f: (t: T) => U) => MaybeX<X, U>;
+        static maybe<T>(t: T): Maybe<T>;
+        static just<T>(t: T): Maybe<T>;
+        static nothing<T>(): Maybe<T>;
+        public unit<U>(u: U): Maybe<U>;
+        public bind<U>(f: (t: T) => Maybe<U>): Maybe<U>;
+        public fmap<U>(f: (t: T) => U): Maybe<U>;
+        public lift: <U>(f: (t: T) => U) => Maybe<U>;
         public caseOf<U>(patterns: MaybePatterns<T, U>): U;
-    }
-    class Maybe<T> extends MaybeX<number, T> {
-        static maybe<T>(t: T): MaybeX<number, T>;
     }
 }

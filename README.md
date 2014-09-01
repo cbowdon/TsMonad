@@ -14,6 +14,15 @@ MIT
 ## Usage
 This library will work with vanilla ES3 JavaScript with node or in the browser. However, it is far better with [TypeScript](http://www.typescriptlang.org).
 
+Node:
+    var TsMonad = require('tsmonad');
+
+Browser:
+    <script src="node_modules/tsmonad/dist/tsmonad.js"></script>
+
+TypeScript definitions:
+    /// <reference path="node_modules/tsmonad/dist/tsmonad.d.js" />
+
 ## Examples
 ### Pattern matching (TypeScript)
 
@@ -62,6 +71,15 @@ Without Maybe, this would be something like:
 
 Please excuse the messy var scoping and implicit any types in the above. Again, the neat thing about the caseOf method is that it forces you to consider the failure case - it's not always obvious if you're missing a branch of your if-else statement, until it blows up at runtime.
 
+### General Either usage (TypeScript)
+
+    var canRideForFree = user.getAge() // this could be either 42 or 'Information withheld' - type being Either<string,number>
+        .bind(age => getBusPass(age)) // this could be either busPass or 'Too young for a bus pass' - type being Either<string,BusPass>
+        .caseOf({
+            right: busPass => busPass.isValidForRoute('Weston'),
+            left: errorMessage => { console.log(errorMessage); return false; },
+        });
+
 ### The lift method
 
 The lift method takes a lambda, applies it to the wrapped value and calls the unit function of the monad on the result (e.g. for Maybe it calls just). Useful when you want to bind to a function that doesn't return a monad.
@@ -76,8 +94,8 @@ The lift method takes a lambda, applies it to the wrapped value and calls the un
 Note that for Maybe, if the lifted function returns null or undefined then it returns Nothing rather than wrapping a null in a Just, which is perverse.
 
 ## FAQ and apologies
-* What, no monad interface? Isn't that mandatory when porting monads to an OO language?
-    Sorry. PITA with the different number of type parameters of Maybe and Either. You won't miss it, I hope.
+* Why only Maybe and Either (so far)?
+These two monads are the most useful in a world ridden with mutable state and side effects. I'm currently evaluating whether Writer offers enough benefit to be worth implementing in TypeScript.
 
-* Where's Writer/monad transformers/monoids/fantasy-land compliance?
-    Sorry. One day.
+* Where's monad transformers/monoids/fantasy-land compliance?
+Sorry. One day.
