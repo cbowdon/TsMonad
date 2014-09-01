@@ -100,7 +100,9 @@ Note that for Maybe, if the lifted function returns null or undefined then it re
 
 ## FAQ and apologies
 * Why only Maybe and Either (so far)?
+
 These two monads are the most useful in a world ridden with mutable state and side effects. I'm currently evaluating whether Writer offers enough benefit to be worth implementing in TypeScript.
 
 * Where's monad transformers/monoids/fantasy-land compliance?
+
 Sorry. One day.
