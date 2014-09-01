@@ -24,6 +24,8 @@ TypeScript definitions:
     /// <reference path="node_modules/tsmonad/dist/tsmonad.d.js" />
 
 ## Examples
+You can see the unit tests for the examples below at test/examples.ts.
+
 ### Pattern matching (TypeScript)
 
     var turns_out_to_be_100 = Maybe.just(10)

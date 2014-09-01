@@ -4,6 +4,7 @@
 module TsMonad.Test {
     'use strict';
 
+    // TODO Automatically populate the README sections from the examples tests
     QUnit.module('Examples');
 
     QUnit.test('Pattern matching', assert => {
@@ -29,6 +30,7 @@ module TsMonad.Test {
         // The example that doesn't compile is not tested here, for obvious reasons. Exercise for the reader?
     });
 
+    // <Test data definitions>
     class BusPass {
         isValidForRoute(route: string) {
             return route === 'Weston';
@@ -38,6 +40,7 @@ module TsMonad.Test {
     interface User<T> {
         getAge(): T;
     }
+    // </Test data definitions>
 
     QUnit.test('General Maybe usage', assert => {
         var user: User<Maybe<number>>,
@@ -49,9 +52,7 @@ module TsMonad.Test {
                 Maybe.just(new BusPass())
         }
 
-        user = {
-            getAge: function() { return Maybe.just(42); }
-        };
+        user = { getAge: () => Maybe.just(42) };
 
         canRideForFree = user.getAge()  // user might not have provided age, this is a Maybe<number>
             .bind(age => getBusPass(age))   // not all ages have a bus pass, this is a Maybe<BusPass>
@@ -73,9 +74,7 @@ module TsMonad.Test {
                 Either.right(new BusPass());
         }
 
-        user = {
-            getAge: function() { return Either.right(42); }
-        };
+        user = { getAge: () => Either.right(42) };
 
         canRideForFree = user.getAge()  // either 42 or 'Information withheld' - type of Either<string,number>
             .bind(age => getBusPass(age))   // either busPass or 'Too young for a bus pass' - type of Either<string,BusPass>
