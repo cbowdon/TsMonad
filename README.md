@@ -15,13 +15,16 @@ MIT
 This library will work with vanilla ES3 JavaScript with node or in the browser. However, it is far better with [TypeScript](http://www.typescriptlang.org).
 
 Node:
+
     var TsMonad = require('tsmonad');
 
 Browser:
-    <script src="node_modules/tsmonad/dist/tsmonad.js"></script>
+
+    `<script src="node_modules/tsmonad/dist/tsmonad.js"`>`</script`>
 
 TypeScript definitions:
-    /// <reference path="node_modules/tsmonad/dist/tsmonad.d.js" />
+
+    /// `<reference path="node_modules/tsmonad/dist/tsmonad.d.js" /`>
 
 ## Examples
 You can see the unit tests for the examples below at test/examples.ts.
