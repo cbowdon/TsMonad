@@ -32,7 +32,7 @@ TypeScript definitions:
             nothing: () => -1
         });
 
-    var turns_out_to_be_a_piano = Maybe.nothing()
+    var turns_out_to_be_a_piano = Maybe.nothing<number>()
         .caseOf({
             just: n => n * n,
             nothing: () => -1 // joke, it's negative one not a piano
@@ -73,21 +73,21 @@ Please excuse the messy var scoping and implicit any types in the above. Again, 
 
 ### General Either usage (TypeScript)
 
-    var canRideForFree = user.getAge() // this could be either 42 or 'Information withheld' - type being Either<string,number>
-        .bind(age => getBusPass(age)) // this could be either busPass or 'Too young for a bus pass' - type being Either<string,BusPass>
+    var canRideForFree = user.getAge()  // either 42 or 'Information withheld' - type of Either<string,number>
+        .bind(age => getBusPass(age))   // either busPass or 'Too young for a bus pass' - type of Either<string,BusPass>
         .caseOf({
             right: busPass => busPass.isValidForRoute('Weston'),
-            left: errorMessage => { console.log(errorMessage); return false; },
+            left: errorMessage => { console.log(errorMessage); return false; }
         });
 
-### The lift method
+### The lift method (fmap)
 
 The lift method takes a lambda, applies it to the wrapped value and calls the unit function of the monad on the result (e.g. for Maybe it calls just). Useful when you want to bind to a function that doesn't return a monad.
 
     var turns_out_to_be_true = Maybe.just(123)
         .lift(n => n * 2)
         .caseOf({
-            just: n => n === 456,
+            just: n => n === 246,
             nothing: () => false
         });
 

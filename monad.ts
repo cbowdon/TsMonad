@@ -1,4 +1,5 @@
 module TsMonad {
+    'use strict';
 
     export interface Monad<T> {
         bind<U>(f: (t: T) => Monad<U>): Monad<U>;

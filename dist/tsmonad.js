@@ -50,6 +50,10 @@ var TsMonad;
     })();
     TsMonad.Either = Either;
 })(TsMonad || (TsMonad = {}));
+var TsMonad;
+(function (TsMonad) {
+    'use strict';
+})(TsMonad || (TsMonad = {}));
 /// <reference path="monad.ts" />
 var TsMonad;
 (function (TsMonad) {
