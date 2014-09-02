@@ -10,7 +10,7 @@ module TsMonad {
         nothing: () => U;
     }
 
-    export class Maybe<T> implements Monad<T>, Functor<T> {
+    export class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
 
         constructor(private type: MaybeType,
                     private value?: T) {}
@@ -34,7 +34,7 @@ module TsMonad {
         }
         // </Data constructors>
 
-        // <Monad laws>
+        // <Monad>
         unit<U>(u: U) {
             return Maybe.maybe<U>(u); // Slight deviation from Haskell, since sadly null does exist in JS
         }
@@ -44,18 +44,25 @@ module TsMonad {
                 f(this.value) :
                 Maybe.nothing<U>();
         }
+        // </Monad>
 
+        // <Functor>
         fmap<U>(f: (t: T) => U) {
             return this.bind(v => this.unit<U>(f(v)));
         }
 
         lift = this.fmap;
-        // </Monad laws>
+        // </Functor>
 
         caseOf<U>(patterns: MaybePatterns<T, U>) {
             return this.type === MaybeType.Just ?
                 patterns.just(this.value) :
                 patterns.nothing();
+        }
+
+        equals(other: Maybe<T>) {
+            return other.type === this.type &&
+                (this.type === MaybeType.Nothing || other.value === this.value);
         }
     }
 

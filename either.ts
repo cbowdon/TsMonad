@@ -8,7 +8,7 @@ module TsMonad {
         right: (r: R) => T;
     }
 
-    export class Either<L,R> implements Monad<R>, Functor<R> {
+    export class Either<L,R> implements Monad<R>, Functor<R>, Eq<Either<L,R>> {
 
         // Constructor for internal use only - use the data constructors below
         constructor(private type: EitherType,
@@ -47,6 +47,12 @@ module TsMonad {
             return this.type === EitherType.Right ?
                 pattern.right(this.r) :
                 pattern.left(this.l);
+        }
+
+        equals(other: Either<L,R>) {
+            return other.type === this.type &&
+                ((this.type === EitherType.Left && other.l === this.l) ||
+                (this.type === EitherType.Right && other.r === this.r))
         }
     }
 }

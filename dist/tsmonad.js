@@ -46,6 +46,10 @@ var TsMonad;
         Either.prototype.caseOf = function (pattern) {
             return this.type === 1 /* Right */ ? pattern.right(this.r) : pattern.left(this.l);
         };
+
+        Either.prototype.equals = function (other) {
+            return other.type === this.type && ((this.type === 0 /* Left */ && other.l === this.l) || (this.type === 1 /* Right */ && other.r === this.r));
+        };
         return Either;
     })();
     TsMonad.Either = Either;
@@ -53,6 +57,12 @@ var TsMonad;
 var TsMonad;
 (function (TsMonad) {
     'use strict';
+
+    
+
+    
+
+    
 })(TsMonad || (TsMonad = {}));
 /// <reference path="monad.ts" />
 var TsMonad;
@@ -88,7 +98,7 @@ var TsMonad;
         };
 
         // </Data constructors>
-        // <Monad laws>
+        // <Monad>
         Maybe.prototype.unit = function (u) {
             return Maybe.maybe(u);
         };
@@ -97,6 +107,8 @@ var TsMonad;
             return this.type === 1 /* Just */ ? f(this.value) : Maybe.nothing();
         };
 
+        // </Monad>
+        // <Functor>
         Maybe.prototype.fmap = function (f) {
             var _this = this;
             return this.bind(function (v) {
@@ -104,9 +116,13 @@ var TsMonad;
             });
         };
 
-        // </Monad laws>
+        // </Functor>
         Maybe.prototype.caseOf = function (patterns) {
             return this.type === 1 /* Just */ ? patterns.just(this.value) : patterns.nothing();
+        };
+
+        Maybe.prototype.equals = function (other) {
+            return other.type === this.type && (this.type === 0 /* Nothing */ || other.value === this.value);
         };
         return Maybe;
     })();

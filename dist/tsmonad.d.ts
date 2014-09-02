@@ -8,7 +8,7 @@ declare module TsMonad {
         left: (l: L) => T;
         right: (r: R) => T;
     }
-    class Either<L, R> implements Monad<R>, Functor<R> {
+    class Either<L, R> implements Monad<R>, Functor<R>, Eq<Either<L, R>> {
         private type;
         private l;
         private r;
@@ -20,6 +20,7 @@ declare module TsMonad {
         public fmap<T>(f: (r: R) => T): Either<L, T>;
         public lift: <T>(f: (r: R) => T) => Either<L, T>;
         public caseOf<T>(pattern: EitherPatterns<L, R, T>): T;
+        public equals(other: Either<L, R>): boolean;
     }
 }
 declare module TsMonad {
@@ -31,6 +32,22 @@ declare module TsMonad {
         fmap<U>(f: (t: T) => U): Functor<U>;
         lift<U>(f: (t: T) => U): Functor<U>;
     }
+    interface Eq<T> {
+        equals(t: T): boolean;
+    }
+    interface Applicative<T> extends Functor<T> {
+        pure(t: T): Applicative<T>;
+        ap<U>(f: (t: Applicative<T>) => U): Applicative<U>;
+    }
+    interface Monoid<T> {
+        mempty: Monoid<T>;
+        mappend(t: Monoid<T>): Monoid<T>;
+        mconcat(t: Monoid<T>[]): Monoid<T>;
+    }
+    interface MonadPlus<T> extends Monad<T> {
+        mzero: Monad<T>;
+        mplus(t: Monad<T>): Monad<T>;
+    }
 }
 declare module TsMonad {
     enum MaybeType {
@@ -41,7 +58,7 @@ declare module TsMonad {
         just: (t: T) => U;
         nothing: () => U;
     }
-    class Maybe<T> implements Monad<T>, Functor<T> {
+    class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
         private type;
         private value;
         constructor(type: MaybeType, value?: T);
@@ -53,5 +70,6 @@ declare module TsMonad {
         public fmap<U>(f: (t: T) => U): Maybe<U>;
         public lift: <U>(f: (t: T) => U) => Maybe<U>;
         public caseOf<U>(patterns: MaybePatterns<T, U>): U;
+        public equals(other: Maybe<T>): boolean;
     }
 }

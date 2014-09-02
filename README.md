@@ -26,10 +26,10 @@ TypeScript definitions:
 
     /// <reference path="node_modules/tsmonad/dist/tsmonad.d.js" />
 
-## Examples
+## Examples (in TypeScript)
 You can see the unit tests for the examples below at test/examples.ts.
 
-### Pattern matching (TypeScript)
+### Pattern matching emulation
 
     var turns_out_to_be_100 = Maybe.just(10)
         .caseOf({
@@ -50,7 +50,7 @@ You can see the unit tests for the examples below at test/examples.ts.
             // helping to enforce correct handling of all possible paths
         });
 
-### General Maybe usage (TypeScript)
+### General Maybe usage
 
 The Maybe monad can simplify processing of values that may not exist:
 
@@ -76,7 +76,7 @@ Without Maybe, this would be something like:
 
 Please excuse the messy var scoping and implicit any types in the above. Again, the neat thing about the caseOf method is that it forces you to consider the failure case - it's not always obvious if you're missing a branch of your if-else statement, until it blows up at runtime.
 
-### General Either usage (TypeScript)
+### General Either usage
 
     var canRideForFree = user.getAge()  // either 42 or 'Information withheld' - type of Either<string,number>
         .bind(age => getBusPass(age))   // either busPass or 'Too young for a bus pass' - type of Either<string,BusPass>
