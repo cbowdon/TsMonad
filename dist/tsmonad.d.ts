@@ -74,20 +74,20 @@ declare module TsMonad {
     }
 }
 declare module TsMonad {
-    interface WriterStringPatterns<T, U> {
-        writer: (story: string[], value: T) => U;
+    interface WriterPatterns<S, T, U> {
+        writer: (story: S[], value: T) => U;
     }
-    class WriterString<T> implements Monad<T>, Eq<WriterString<T>> {
+    class Writer<S, T> implements Monad<T>, Eq<Writer<S, T>> {
         private story;
         private value;
-        constructor(story: string[], value: T);
-        static writer<T>(story: string[], value: T): WriterString<T>;
-        static tell(s: string): WriterString<number>;
-        public unit<U>(u: U): WriterString<U>;
-        public bind<U>(f: (t: T) => WriterString<U>): WriterString<U>;
-        public fmap<U>(f: (t: T) => U): WriterString<U>;
-        public lift: <U>(f: (t: T) => U) => WriterString<U>;
-        public caseOf<U>(patterns: WriterStringPatterns<T, U>): U;
-        public equals(other: WriterString<T>): boolean;
+        constructor(story: S[], value: T);
+        static writer<S, T>(story: S[], value: T): Writer<S, T>;
+        static tell<S>(s: S): Writer<S, number>;
+        public unit<U>(u: U): Writer<any, U>;
+        public bind<U>(f: (t: T) => Writer<S, U>): Writer<S, U>;
+        public fmap<U>(f: (t: T) => U): Writer<S, U>;
+        public lift: <U>(f: (t: T) => U) => Writer<S, U>;
+        public caseOf<U>(patterns: WriterPatterns<S, T, U>): U;
+        public equals(other: Writer<S, T>): boolean;
     }
 }

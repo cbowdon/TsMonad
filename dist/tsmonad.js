@@ -148,35 +148,35 @@ var TsMonad;
 (function (TsMonad) {
     'use strict';
 
-    var WriterString = (function () {
-        function WriterString(story, value) {
+    var Writer = (function () {
+        function Writer(story, value) {
             this.story = story;
             this.value = value;
             this.lift = this.fmap;
         }
         // <Data constructors>
-        WriterString.writer = function (story, value) {
-            return new WriterString(story, value);
+        Writer.writer = function (story, value) {
+            return new Writer(story, value);
         };
 
-        WriterString.tell = function (s) {
-            return new WriterString([s], 0);
+        Writer.tell = function (s) {
+            return new Writer([s], 0);
         };
 
         // </Data constructors>
         // <Monad>
-        WriterString.prototype.unit = function (u) {
-            return new WriterString([], u);
+        Writer.prototype.unit = function (u) {
+            return new Writer([], u);
         };
 
-        WriterString.prototype.bind = function (f) {
+        Writer.prototype.bind = function (f) {
             var wu = f(this.value), newStory = this.story.concat(wu.story);
-            return new WriterString(newStory, wu.value);
+            return new Writer(newStory, wu.value);
         };
 
         // </Monad>
         // <Functor>
-        WriterString.prototype.fmap = function (f) {
+        Writer.prototype.fmap = function (f) {
             var _this = this;
             return this.bind(function (v) {
                 return _this.unit(f(v));
@@ -184,19 +184,19 @@ var TsMonad;
         };
 
         // </Functor>
-        WriterString.prototype.caseOf = function (patterns) {
+        Writer.prototype.caseOf = function (patterns) {
             return patterns.writer(this.story, this.value);
         };
 
-        WriterString.prototype.equals = function (other) {
+        Writer.prototype.equals = function (other) {
             var i, sameStory = true;
             for (i = 0; i < this.story.length; i += 1) {
                 sameStory = sameStory && this.story[i] === other.story[i];
             }
             return sameStory && this.value === other.value;
         };
-        return WriterString;
+        return Writer;
     })();
-    TsMonad.WriterString = WriterString;
+    TsMonad.Writer = Writer;
 })(TsMonad || (TsMonad = {}));
 //# sourceMappingURL=tsmonad.js.map
