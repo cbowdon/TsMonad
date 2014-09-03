@@ -46,4 +46,35 @@ module TsMonad.Test {
                 assert.ok(lhs.equals(rhs));
             });
     });
+
+    QUnit.test('Monad 1: left identity', assert => {
+        // (return x >>= f) = f x
+        var n = 10,
+            fm = (x: number) => Maybe.just(2 * x),
+            fe = (x: number) => Either.right<string,number>(2 * x);
+
+        assert.ok(Maybe.maybe(n) // unit
+            .bind(fm)
+            .equals(fm(n)));
+
+        assert.ok(Either.right<string,number>(n) // unit
+            .bind(fe)
+            .equals(fe(n)));
+    });
+
+    QUnit.test('Monad 2: right identity', assert => {
+        // (m >>= return) = m
+        var m = Maybe.just(20),
+            e = Either.right<string,number>(20);
+
+        assert.ok(m.bind(m.unit).equals(m));
+
+        assert.ok(e.bind(e.unit).equals(e));
+    });
+
+    QUnit.test('Monad 3: associativity', assert => {
+        // ((m >>= f) >>= g) = (m >>= (\x -> f x >>= g))
+
+        throw new Error('not yet implemented');
+    });
 }

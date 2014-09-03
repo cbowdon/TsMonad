@@ -26,7 +26,7 @@ var TsMonad;
         };
 
         // </Data constructors>
-        // <Monad laws>
+        // <Monad>
         Either.prototype.unit = function (t) {
             return Either.right(t);
         };
@@ -35,6 +35,8 @@ var TsMonad;
             return this.type === 1 /* Right */ ? f(this.r) : Either.left(this.l);
         };
 
+        // </Monad>
+        // <Functor>
         Either.prototype.fmap = function (f) {
             var _this = this;
             return this.bind(function (v) {
@@ -42,7 +44,7 @@ var TsMonad;
             });
         };
 
-        // </Monad laws>
+        // </Functor>
         Either.prototype.caseOf = function (pattern) {
             return this.type === 1 /* Right */ ? pattern.right(this.r) : pattern.left(this.l);
         };

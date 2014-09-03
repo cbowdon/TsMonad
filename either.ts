@@ -25,7 +25,7 @@ module TsMonad {
         }
         // </Data constructors>
 
-        // <Monad laws>
+        // <Monad>
         unit<T>(t: T) {
             return Either.right<L,T>(t);
         }
@@ -35,13 +35,15 @@ module TsMonad {
                 f(this.r) :
                 Either.left<L,T>(this.l);
         }
+        // </Monad>
 
+        // <Functor>
         fmap<T>(f: (r: R) => T) {
             return this.bind(v => this.unit<T>(f(v)));
         }
 
         lift = this.fmap;
-        // </Monad laws>
+        // </Functor>
 
         caseOf<T>(pattern: EitherPatterns<L,R,T>) {
             return this.type === EitherType.Right ?
