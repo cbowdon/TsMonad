@@ -86,6 +86,16 @@ module TsMonad.Test {
         assert.ok(canRideForFree);
     });
 
+    QUnit.test('General Writer usage', assert => {
+
+        assert.ok(Writer.writer(['Started with 0'], 0)
+            .bind(x => Writer.writer(['+ 8'], x + 8))
+            .bind(x => Writer.writer(['- 6', '* 8'], 8 * (x - 6)))
+            .caseOf({
+                writer: (s, v) => v === 16 && s.join(', ') === 'Started with 0, + 8, - 6, * 8'
+            }));
+    });
+
     QUnit.test('Lift/fmap', assert => {
         var turns_out_to_be_true = Maybe.just(123)
             .lift(n => n * 2)

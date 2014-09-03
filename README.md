@@ -85,6 +85,17 @@ Please excuse the messy var scoping and implicit any types in the above. Again, 
             left: errorMessage => { console.log(errorMessage); return false; }
         });
 
+### General Writer usage
+
+Somewhat contrived example of recording arithmetic operations:
+
+    var is_true = Writer.writer(['Started with 0'], 0)
+        .bind(x => Writer.writer(['+ 8'], x + 8))
+        .bind(x => Writer.writer(['- 6', '* 8'], 8 * (x - 6)))
+        .caseOf({
+            writer: (s, v) => v === 16 && s.join(', ') === 'Started with 0, + 8, - 6, * 8'
+        }));
+
 ### The lift method (fmap)
 
 The lift method takes a lambda, applies it to the wrapped value and calls the unit function of the monad on the result (e.g. for Maybe it calls just). Useful when you want to bind to a function that doesn't return a monad.
@@ -99,9 +110,9 @@ The lift method takes a lambda, applies it to the wrapped value and calls the un
 Note that for Maybe, if the lifted function returns null or undefined then it returns Nothing rather than wrapping a null in a Just, which is perverse.
 
 ## FAQ and apologies
-* Why only Maybe and Either (so far)?
+* Why only Maybe, Either and Writer (so far)?
 
-These two monads are the most useful in a world ridden with mutable state and side effects. I'm currently evaluating whether Writer offers enough benefit to be worth implementing in TypeScript.
+These monads are the most useful in a world ridden with mutable state and side effects. I'm currently evaluating which other common monads offer enough benefit to be worth implementing in TypeScript.
 
 * Where's monad transformers/monoids/fantasy-land compliance?
 

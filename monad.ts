@@ -11,6 +11,7 @@ module TsMonad {
         lift<U>(f: (t: T) => U): Functor<U>; // lift is an alias for fmap
     }
 
+    // TODO Eq implementations so far use just using '===', but pulling in _.IsEqual would be better
     export interface Eq<T> {
         equals(t: T): boolean;
     }
