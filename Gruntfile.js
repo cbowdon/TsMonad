@@ -8,6 +8,8 @@ module.exports = function (grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-watch');
 
+    grunt.loadNpmTasks('grunt-contrib-copy');
+
     grunt.initConfig({
         typescript: {
             options: {
@@ -22,12 +24,28 @@ module.exports = function (grunt) {
             },
             test: {
                 src: tests,
-                dest: 'test/dist/tsmonad-test.js'
+                dest: 'test/bin/tsmonad-test.js'
             }
         },
         watch: {
             tasks: 'typescript',
             files: sources.concat(tests)
+        },
+        copy: {
+            test: {
+                expand: true,
+                src: [
+                  'test/index.html',
+                  'test/bin/*.js',
+                  'node_modules/underscore/underscore-min.js',
+                  'node_modules/qunitjs/qunit/qunit.css',
+                  'node_modules/qunitjs/qunit/qunit.js',
+                  'node_modules/blanket/dist/qunit/blanket.min.js',
+                  'dist/tsmonad.js'
+                ],
+                dest: 'test/dist/',
+                flatten: true
+            }
         }
     });
 
