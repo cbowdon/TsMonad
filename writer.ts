@@ -29,6 +29,9 @@ module TsMonad {
                 newStory = this.story.concat(wu.story);
             return new Writer(newStory, wu.value);
         }
+
+        of = this.unit;
+        chain = this.bind;
         // </Monad>
 
         // <Functor>
@@ -37,6 +40,7 @@ module TsMonad {
         }
 
         lift = this.fmap;
+        map = this.fmap;
         // </Functor>
 
         caseOf<U>(patterns: WriterPatterns<S,T,U>) {

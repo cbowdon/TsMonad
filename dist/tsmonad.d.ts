@@ -17,36 +17,29 @@ declare module TsMonad {
         static right<L, R>(r: R): Either<L, R>;
         public unit<T>(t: T): Either<L, T>;
         public bind<T>(f: (r: R) => Either<L, T>): Either<L, T>;
+        public of: <T>(t: T) => Either<L, T>;
+        public chain: <T>(f: (r: R) => Either<L, T>) => Either<L, T>;
         public fmap<T>(f: (r: R) => T): Either<L, T>;
         public lift: <T>(f: (r: R) => T) => Either<L, T>;
+        public map: <T>(f: (r: R) => T) => Either<L, T>;
         public caseOf<T>(pattern: EitherPatterns<L, R, T>): T;
         public equals(other: Either<L, R>): boolean;
     }
 }
 declare module TsMonad {
+    interface Eq<T> {
+        equals(t: T): boolean;
+    }
     interface Monad<T> {
-        bind<U>(f: (t: T) => Monad<U>): Monad<U>;
         unit<U>(t: U): Monad<U>;
+        bind<U>(f: (t: T) => Monad<U>): Monad<U>;
+        of<U>(t: U): Monad<U>;
+        chain<U>(f: (t: T) => Monad<U>): Monad<U>;
     }
     interface Functor<T> {
         fmap<U>(f: (t: T) => U): Functor<U>;
         lift<U>(f: (t: T) => U): Functor<U>;
-    }
-    interface Eq<T> {
-        equals(t: T): boolean;
-    }
-    interface Applicative<T> extends Functor<T> {
-        pure(t: T): Applicative<T>;
-        ap<U>(f: (t: Applicative<T>) => U): Applicative<U>;
-    }
-    interface Monoid<T> {
-        mempty: Monoid<T>;
-        mappend(t: Monoid<T>): Monoid<T>;
-        mconcat(t: Monoid<T>[]): Monoid<T>;
-    }
-    interface MonadPlus<T> extends Monad<T> {
-        mzero: Monad<T>;
-        mplus(t: Monad<T>): Monad<T>;
+        map<U>(f: (t: T) => U): Functor<U>;
     }
 }
 declare module TsMonad {
@@ -67,8 +60,11 @@ declare module TsMonad {
         static nothing<T>(): Maybe<T>;
         public unit<U>(u: U): Maybe<U>;
         public bind<U>(f: (t: T) => Maybe<U>): Maybe<U>;
+        public of: <U>(u: U) => Maybe<U>;
+        public chain: <U>(f: (t: T) => Maybe<U>) => Maybe<U>;
         public fmap<U>(f: (t: T) => U): Maybe<U>;
         public lift: <U>(f: (t: T) => U) => Maybe<U>;
+        public map: <U>(f: (t: T) => U) => Maybe<U>;
         public caseOf<U>(patterns: MaybePatterns<T, U>): U;
         public equals(other: Maybe<T>): boolean;
     }
@@ -85,8 +81,11 @@ declare module TsMonad {
         static tell<S>(s: S): Writer<S, number>;
         public unit<U>(u: U): Writer<any, U>;
         public bind<U>(f: (t: T) => Writer<S, U>): Writer<S, U>;
+        public of: <U>(u: U) => Writer<any, U>;
+        public chain: <U>(f: (t: T) => Writer<S, U>) => Writer<S, U>;
         public fmap<U>(f: (t: T) => U): Writer<S, U>;
         public lift: <U>(f: (t: T) => U) => Writer<S, U>;
+        public map: <U>(f: (t: T) => U) => Writer<S, U>;
         public caseOf<U>(patterns: WriterPatterns<S, T, U>): U;
         public equals(other: Writer<S, T>): boolean;
     }

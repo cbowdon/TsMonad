@@ -35,6 +35,9 @@ module TsMonad {
                 f(this.r) :
                 Either.left<L,T>(this.l);
         }
+
+        of = this.unit;
+        chain = this.bind;
         // </Monad>
 
         // <Functor>
@@ -43,6 +46,7 @@ module TsMonad {
         }
 
         lift = this.fmap;
+        map = this.fmap;
         // </Functor>
 
         caseOf<T>(pattern: EitherPatterns<L,R,T>) {

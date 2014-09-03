@@ -116,4 +116,4 @@ These monads are the most useful in a world ridden with mutable state and side e
 
 * Where's monad transformers/monoids/fantasy-land compliance?
 
-Sorry. One day.
+Fantasy Land compliance is in the works. I am very much looking forward to being able to include the unicorn rainbow logo. As for the rest: sorry. One day.

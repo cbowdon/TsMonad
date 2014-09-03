@@ -14,7 +14,10 @@ var TsMonad;
             this.type = type;
             this.l = l;
             this.r = r;
+            this.of = this.unit;
+            this.chain = this.bind;
             this.lift = this.fmap;
+            this.map = this.fmap;
         }
         // <Data constructors>
         Either.left = function (l) {
@@ -65,8 +68,6 @@ var TsMonad;
     
 
     
-
-    
 })(TsMonad || (TsMonad = {}));
 /// <reference path="monad.ts" />
 var TsMonad;
@@ -83,7 +84,10 @@ var TsMonad;
         function Maybe(type, value) {
             this.type = type;
             this.value = value;
+            this.of = this.unit;
+            this.chain = this.bind;
             this.lift = this.fmap;
+            this.map = this.fmap;
         }
         // </Data constructors>
         Maybe.maybe = function (t) {
@@ -154,7 +158,10 @@ var TsMonad;
         function Writer(story, value) {
             this.story = story;
             this.value = value;
+            this.of = this.unit;
+            this.chain = this.bind;
             this.lift = this.fmap;
+            this.map = this.fmap;
         }
         // <Data constructors>
         Writer.writer = function (story, value) {

@@ -44,6 +44,9 @@ module TsMonad {
                 f(this.value) :
                 Maybe.nothing<U>();
         }
+
+        of = this.unit;
+        chain = this.bind;
         // </Monad>
 
         // <Functor>
@@ -52,6 +55,7 @@ module TsMonad {
         }
 
         lift = this.fmap;
+        map = this.fmap;
         // </Functor>
 
         caseOf<U>(patterns: MaybePatterns<T, U>) {
