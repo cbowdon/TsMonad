@@ -75,13 +75,14 @@ declare module TsMonad {
 }
 declare module TsMonad {
     interface WriterStringPatterns<T, U> {
-        writer: (story: string, value: T) => U;
+        writer: (story: string[], value: T) => U;
     }
     class WriterString<T> implements Monad<T>, Eq<WriterString<T>> {
         private story;
         private value;
-        constructor(story: string, value: T);
-        static tell(story: string): WriterString<number>;
+        constructor(story: string[], value: T);
+        static writer<T>(story: string[], value: T): WriterString<T>;
+        static tell(s: string): WriterString<number>;
         public unit<U>(u: U): WriterString<U>;
         public bind<U>(f: (t: T) => WriterString<U>): WriterString<U>;
         public fmap<U>(f: (t: T) => U): WriterString<U>;

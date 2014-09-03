@@ -9,16 +9,16 @@ module TsMonad.Test {
     QUnit.test('Bind', assert => {
 
         assert.ok(WriterString.tell('This ')
-            .bind(x => new WriterString('is a ', [1,2,3]))
-            .bind(x => new WriterString('story', 0))
-            .equals(WriterString.tell('This is a story')));
+            .bind(x => WriterString.writer(['is a '], [1,2,3]))
+            .bind(x => WriterString.writer(['story'], 99))
+            .equals(WriterString.writer(['This ', 'is a ', 'story'], 99)));
     });
 
     QUnit.test('Case of', assert => {
 
         assert.ok(WriterString.tell('all about')
             .caseOf({
-                writer: (s, v) => s === 'all about' && v === 0
+                writer: (s, v) => _.isEqual(s, ['all about']) && v === 0
             }));
     });
 
@@ -28,7 +28,7 @@ module TsMonad.Test {
             .lift(x => [0,0,0,0])
             .lift(x => 99)
             .caseOf({
-                writer: (s, v) => s === 'how' && v === 99
+                writer: (s, v) => _.isEqual(s, ['how']) && v === 99
             }));
     });
 

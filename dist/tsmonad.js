@@ -155,19 +155,23 @@ var TsMonad;
             this.lift = this.fmap;
         }
         // <Data constructors>
-        WriterString.tell = function (story) {
-            return new WriterString(story, 0);
+        WriterString.writer = function (story, value) {
+            return new WriterString(story, value);
+        };
+
+        WriterString.tell = function (s) {
+            return new WriterString([s], 0);
         };
 
         // </Data constructors>
         // <Monad>
         WriterString.prototype.unit = function (u) {
-            return new WriterString('', u);
+            return new WriterString([], u);
         };
 
         WriterString.prototype.bind = function (f) {
-            var wu = f(this.value);
-            return new WriterString(this.story + wu.story, wu.value);
+            var wu = f(this.value), newStory = this.story.concat(wu.story);
+            return new WriterString(newStory, wu.value);
         };
 
         // </Monad>
@@ -185,7 +189,11 @@ var TsMonad;
         };
 
         WriterString.prototype.equals = function (other) {
-            return this.story === other.story && this.value === other.value;
+            var i, sameStory = true;
+            for (i = 0; i < this.story.length; i += 1) {
+                sameStory = sameStory && this.story[i] === other.story[i];
+            }
+            return sameStory && this.value === other.value;
         };
         return WriterString;
     })();

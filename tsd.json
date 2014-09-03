@@ -10,6 +10,9 @@
     },
     "node/node.d.ts": {
       "commit": "1c3488c2d84232b9f66b6d7e758839381e95b3bf"
+    },
+    "underscore/underscore.d.ts": {
+      "commit": "0d999bb4663ec3212427c0b0ff28fc08c065e98d"
     }
   }
 }
