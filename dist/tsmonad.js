@@ -144,4 +144,51 @@ var TsMonad;
         this.TsMonad = TsMonad;
     }
 }).call(this);
+var TsMonad;
+(function (TsMonad) {
+    'use strict';
+
+    var WriterString = (function () {
+        function WriterString(story, value) {
+            this.story = story;
+            this.value = value;
+            this.lift = this.fmap;
+        }
+        // <Data constructors>
+        WriterString.tell = function (story) {
+            return new WriterString(story, 0);
+        };
+
+        // </Data constructors>
+        // <Monad>
+        WriterString.prototype.unit = function (u) {
+            return new WriterString('', u);
+        };
+
+        WriterString.prototype.bind = function (f) {
+            var wu = f(this.value);
+            return new WriterString(this.story + wu.story, wu.value);
+        };
+
+        // </Monad>
+        // <Functor>
+        WriterString.prototype.fmap = function (f) {
+            var _this = this;
+            return this.bind(function (v) {
+                return _this.unit(f(v));
+            });
+        };
+
+        // </Functor>
+        WriterString.prototype.caseOf = function (patterns) {
+            return patterns.writer(this.story, this.value);
+        };
+
+        WriterString.prototype.equals = function (other) {
+            return this.story === other.story && this.value === other.value;
+        };
+        return WriterString;
+    })();
+    TsMonad.WriterString = WriterString;
+})(TsMonad || (TsMonad = {}));
 //# sourceMappingURL=tsmonad.js.map

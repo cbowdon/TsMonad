@@ -73,3 +73,20 @@ declare module TsMonad {
         public equals(other: Maybe<T>): boolean;
     }
 }
+declare module TsMonad {
+    interface WriterStringPatterns<T, U> {
+        writer: (story: string, value: T) => U;
+    }
+    class WriterString<T> implements Monad<T>, Eq<WriterString<T>> {
+        private story;
+        private value;
+        constructor(story: string, value: T);
+        static tell(story: string): WriterString<number>;
+        public unit<U>(u: U): WriterString<U>;
+        public bind<U>(f: (t: T) => WriterString<U>): WriterString<U>;
+        public fmap<U>(f: (t: T) => U): WriterString<U>;
+        public lift: <U>(f: (t: T) => U) => WriterString<U>;
+        public caseOf<U>(patterns: WriterStringPatterns<T, U>): U;
+        public equals(other: WriterString<T>): boolean;
+    }
+}
