@@ -24,6 +24,7 @@
     "blanket": "^1.1.6",
     "grunt": "^0.4.5",
     "grunt-contrib-watch": "^0.6.1",
-    "grunt-typescript": "^0.3.8"
+    "grunt-typescript": "^0.3.8",
+    "qunitjs": "^1.15.0"
   }
 }

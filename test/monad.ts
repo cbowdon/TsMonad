@@ -74,7 +74,18 @@ module TsMonad.Test {
 
     QUnit.test('Monad 3: associativity', assert => {
         // ((m >>= f) >>= g) = (m >>= (\x -> f x >>= g))
+        var n = 10,
+            m = Maybe.just(n),
+            e = Either.right<string,number>(n),
+            fm = (x: number) => Maybe.just(2 * x),
+            gm = (x: number) => Maybe.just(x - 3),
+            fe = (x: number) => Either.right<string,number>(2 * x),
+            ge = (x: number) => Either.right<string,number>(x - 3);
 
-        throw new Error('not yet implemented');
+        assert.ok(m.bind(fm).bind(gm)
+            .equals(m.bind(x => fm(x).bind(gm))));
+
+        assert.ok(e.bind(fe).bind(ge)
+            .equals(e.bind(x => fe(x).bind(ge))));
     });
 }
