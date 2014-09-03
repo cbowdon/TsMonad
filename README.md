@@ -27,7 +27,7 @@ TypeScript definitions:
     /// <reference path="node_modules/tsmonad/dist/tsmonad.d.js" />
 
 ## Examples (in TypeScript)
-You can see the unit tests for the examples below at test/examples.ts.
+You can see the unit tests for the examples below [online here](https://cbowdon.github.io/tests/TsMonad) and view the source in test/examples.ts.
 
 ### Pattern matching emulation
 
@@ -110,10 +110,16 @@ The lift method takes a lambda, applies it to the wrapped value and calls the un
 Note that for Maybe, if the lifted function returns null or undefined then it returns Nothing rather than wrapping a null in a Just, which is perverse.
 
 ## FAQ and apologies
-* Why only Maybe, Either and Writer (so far)?
+#### Why only Maybe, Either and Writer (so far)?
 
-These monads are the most useful in a world ridden with mutable state and side effects. I'm currently evaluating which other common monads offer enough benefit to be worth implementing in TypeScript.
+These monads are the most obviously useful in JavaScript's world of unrestricted mutable state and side effects. I'm currently evaluating which other common monads offer enough benefit to be worth implementing in TypeScript.
 
-* Where's monad transformers/monoids/fantasy-land compliance?
+#### Where's monad transformers/monoids?
 
-Fantasy Land compliance is in the works. I am very much looking forward to being able to include the unicorn rainbow logo. As for the rest: sorry. One day.
+Sorry. One day.
+
+#### Is it [Fantasy Land](https://github.com/fantasyland/fantasy-land) conformant?
+
+Yes - there are aliases for Fantasy Land interfaces of Functor and Monad.
+
+!["Fantasy land logo"](https://raw.github.com/fantasyland/fantasy-land/master/logo.png)
