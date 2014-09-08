@@ -1,0 +1,5 @@
+Gruntfile.js
+tsd.json
+typings/
+test/
+*.ts
