@@ -1,4 +1,3 @@
-/// <reference path="../typings/tsd.d.ts" />
 declare module TsMonad {
     enum EitherType {
         Left = 0,
@@ -90,3 +89,12 @@ declare module TsMonad {
         public equals(other: Writer<S, T>): boolean;
     }
 }
+declare var module: {
+    exports: any;
+    require(id: string): any;
+    id: string;
+    filename: string;
+    loaded: boolean;
+    parent: any;
+    children: any[];
+};

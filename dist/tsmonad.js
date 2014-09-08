@@ -136,20 +136,6 @@ var TsMonad;
     })();
     TsMonad.Maybe = Maybe;
 })(TsMonad || (TsMonad = {}));
-/// <reference path="typings/tsd.d.ts" />
-/// <reference path="either.ts" />
-/// <reference path="maybe.ts" />
-(function () {
-    'use strict';
-
-    if (typeof module !== undefined && module.exports) {
-        // it's node
-        module.exports = TsMonad;
-    } else {
-        // stick it on the global object
-        this.TsMonad = TsMonad;
-    }
-}).call(this);
 var TsMonad;
 (function (TsMonad) {
     'use strict';
@@ -208,4 +194,19 @@ var TsMonad;
     })();
     TsMonad.Writer = Writer;
 })(TsMonad || (TsMonad = {}));
+/// <reference path="either.ts" />
+/// <reference path="maybe.ts" />
+/// <reference path="writer.ts" />
+
+(function () {
+    'use strict';
+
+    if (typeof module !== undefined && module.exports) {
+        // it's node
+        module.exports = TsMonad;
+    } else {
+        // stick it on the global object
+        this.TsMonad = TsMonad;
+    }
+}).call(this);
 //# sourceMappingURL=tsmonad.js.map
