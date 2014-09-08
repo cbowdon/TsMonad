@@ -5,6 +5,10 @@ module TsMonad {
         writer: (story: S[], value: T) => U;
     }
 
+    export function writer<S,T>(story: S[], value: T) {
+        return Writer.writer(story, value);
+    }
+
     export class Writer<S,T> implements Monad<T>, Eq<Writer<S,T>> {
 
         constructor(private story: S[], private value: T) {}

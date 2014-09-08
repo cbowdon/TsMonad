@@ -8,6 +8,26 @@ var TsMonad;
     })(TsMonad.EitherType || (TsMonad.EitherType = {}));
     var EitherType = TsMonad.EitherType;
 
+    function exists(t) {
+        return t !== null && t !== undefined;
+    }
+
+    function either(l, r) {
+        if (exists(l) && exists(r)) {
+            throw new TypeError('Cannot construct an Either with both a left and a right');
+        }
+        if (!exists(l) && !exists(r)) {
+            throw new TypeError('Cannot construct an Either with neither a left nor a right');
+        }
+        if (exists(l) && !exists(r)) {
+            return Either.left(l);
+        }
+        if (!exists(l) && exists(r)) {
+            return Either.right(r);
+        }
+    }
+    TsMonad.either = either;
+
     var Either = (function () {
         // Constructor for internal use only - use the data constructors below
         function Either(type, l, r) {
@@ -80,6 +100,11 @@ var TsMonad;
     })(TsMonad.MaybeType || (TsMonad.MaybeType = {}));
     var MaybeType = TsMonad.MaybeType;
 
+    function maybe(t) {
+        return Maybe.maybe(t);
+    }
+    TsMonad.maybe = maybe;
+
     var Maybe = (function () {
         function Maybe(type, value) {
             this.type = type;
@@ -139,6 +164,11 @@ var TsMonad;
 var TsMonad;
 (function (TsMonad) {
     'use strict';
+
+    function writer(story, value) {
+        return Writer.writer(story, value);
+    }
+    TsMonad.writer = writer;
 
     var Writer = (function () {
         function Writer(story, value) {

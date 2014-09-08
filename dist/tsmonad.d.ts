@@ -7,6 +7,7 @@ declare module TsMonad {
         left: (l: L) => T;
         right: (r: R) => T;
     }
+    function either<L, R>(l?: L, r?: R): Either<L, R>;
     class Either<L, R> implements Monad<R>, Functor<R>, Eq<Either<L, R>> {
         private type;
         private l;
@@ -50,6 +51,7 @@ declare module TsMonad {
         just: (t: T) => U;
         nothing: () => U;
     }
+    function maybe<T>(t: T): Maybe<T>;
     class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
         private type;
         private value;
@@ -72,6 +74,7 @@ declare module TsMonad {
     interface WriterPatterns<S, T, U> {
         writer: (story: S[], value: T) => U;
     }
+    function writer<S, T>(story: S[], value: T): Writer<S, T>;
     class Writer<S, T> implements Monad<T>, Eq<Writer<S, T>> {
         private story;
         private value;

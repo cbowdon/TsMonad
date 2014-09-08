@@ -8,6 +8,25 @@ module TsMonad {
         right: (r: R) => T;
     }
 
+    function exists<T>(t: T) {
+        return t !== null && t !== undefined;
+    }
+
+    export function either<L,R>(l?: L, r?: R) {
+        if (exists(l) && exists(r)) {
+            throw new TypeError('Cannot construct an Either with both a left and a right');
+        }
+        if (!exists(l) && !exists(r)) {
+            throw new TypeError('Cannot construct an Either with neither a left nor a right');
+        }
+        if (exists(l) && !exists(r)) {
+            return Either.left<L,R>(l);
+        }
+        if (!exists(l) && exists(r)) {
+            return Either.right<L,R>(r);
+        }
+    }
+
     export class Either<L,R> implements Monad<R>, Functor<R>, Eq<Either<L,R>> {
 
         // Constructor for internal use only - use the data constructors below

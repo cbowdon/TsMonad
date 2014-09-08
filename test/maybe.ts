@@ -74,5 +74,11 @@ module TsMonad.Test {
                 just: s => true,
                 nothing: () => false
             }));
+
+        assert.ok(maybe('something')
+            .caseOf({
+                just: s => true,
+                nothing: () => false
+            }));
     });
 }

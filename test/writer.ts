@@ -36,4 +36,11 @@ module TsMonad.Test {
             }));
     });
 
+    QUnit.test('Constructors', assert => {
+
+        assert.ok(writer(['my'], 1234)
+            .caseOf({
+                writer: (s, v) => _.isEqual(s, ['my']) && v === 1234
+            }));
+    });
 }

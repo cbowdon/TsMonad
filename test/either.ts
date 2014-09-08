@@ -60,4 +60,22 @@ module TsMonad.Test {
                 // so try to avoid this kind of sociopathic behaviour
             }));
     });
+
+    QUnit.test('Constructors', assert => {
+
+        assert.ok(either<string, number>('oh noes')
+            .caseOf({
+                left: s => s === 'oh noes',
+                right: n => false
+            }));
+
+        assert.ok(either<string, number>(null, 123)
+            .caseOf({
+                left: s => false,
+                right: n => n === 123
+            }));
+
+        assert.throws(() => either('not both', 123), /both/);
+        assert.throws(() => either<string,number>(), /neither/);
+    });
 }

@@ -49,5 +49,5 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('default', 'Compiles TypeScript', [ 'typescript' ]);
+    grunt.registerTask('default', 'Compiles TypeScript and prepares dist', [ 'typescript', 'copy' ]);
 };

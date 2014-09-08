@@ -10,6 +10,10 @@ module TsMonad {
         nothing: () => U;
     }
 
+    export function maybe<T>(t: T) {
+        return Maybe.maybe(t);
+    }
+
     export class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
 
         constructor(private type: MaybeType,
