@@ -23,10 +23,16 @@ declare module TsMonad {
         public lift: <T>(f: (r: R) => T) => Either<L, T>;
         public map: <T>(f: (r: R) => T) => Either<L, T>;
         public caseOf<T>(pattern: EitherPatterns<L, R, T>): T;
-        public equals(other: Either<L, R>): boolean;
+        public equals(other: Either<L, R>): any;
     }
 }
 declare module TsMonad {
+    /**
+    * Utility for comparing values:
+    * - if objects implement Eq, defer to their .equals
+    * - if are arrays, iterate and recur
+    */
+    function eq(a: any, b: any): any;
     interface Eq<T> {
         equals(t: T): boolean;
     }
@@ -67,7 +73,7 @@ declare module TsMonad {
         public lift: <U>(f: (t: T) => U) => Maybe<U>;
         public map: <U>(f: (t: T) => U) => Maybe<U>;
         public caseOf<U>(patterns: MaybePatterns<T, U>): U;
-        public equals(other: Maybe<T>): boolean;
+        public equals(other: Maybe<T>): any;
     }
 }
 declare module TsMonad {

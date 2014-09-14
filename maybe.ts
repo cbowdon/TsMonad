@@ -70,14 +70,7 @@ module TsMonad {
 
         equals(other: Maybe<T>) {
             return other.type === this.type &&
-                (this.type === MaybeType.Nothing || other.value === this.value);
+                (this.type === MaybeType.Nothing || eq(other.value, this.value));
         }
     }
-
-    /*
-     *  aVarThatMightBeNothing.caseOf({
-     *      just: s => s
-     *      // no 'nothing' implementation - COMPILER ERROR
-     *  });
-     */
 }

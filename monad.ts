@@ -1,7 +1,30 @@
 module TsMonad {
     'use strict';
 
-    // TODO Eq implementations so far use just using '===', but pulling in _.IsEqual would be better
+    /**
+     * Utility for comparing values:
+     * - if objects implement Eq, defer to their .equals
+     * - if are arrays, iterate and recur
+     */
+    export function eq(a: any, b: any) {
+        var idx = 0;
+        if (a === b) {
+            return true;
+        }
+        if (typeof a.equals === 'function') {
+            return a.equals(b);
+        }
+        if (a.length > 0 && a.length === b.length) {
+            for (; idx < a.length; idx += 1) {
+                if (!eq(a[idx], b[idx])) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
     export interface Eq<T> {
         equals(t: T): boolean;
     }

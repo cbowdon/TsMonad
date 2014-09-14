@@ -73,7 +73,7 @@ var TsMonad;
         };
 
         Either.prototype.equals = function (other) {
-            return other.type === this.type && ((this.type === 0 /* Left */ && other.l === this.l) || (this.type === 1 /* Right */ && other.r === this.r));
+            return other.type === this.type && ((this.type === 0 /* Left */ && TsMonad.eq(other.l, this.l)) || (this.type === 1 /* Right */ && TsMonad.eq(other.r, this.r)));
         };
         return Either;
     })();
@@ -83,7 +83,30 @@ var TsMonad;
 (function (TsMonad) {
     'use strict';
 
-    
+    /**
+    * Utility for comparing values:
+    * - if objects implement Eq, defer to their .equals
+    * - if are arrays, iterate and recur
+    */
+    function eq(a, b) {
+        var idx = 0;
+        if (a === b) {
+            return true;
+        }
+        if (typeof a.equals === 'function') {
+            return a.equals(b);
+        }
+        if (a.length > 0 && a.length === b.length) {
+            for (; idx < a.length; idx += 1) {
+                if (!eq(a[idx], b[idx])) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+    TsMonad.eq = eq;
 
     
 
@@ -155,7 +178,7 @@ var TsMonad;
         };
 
         Maybe.prototype.equals = function (other) {
-            return other.type === this.type && (this.type === 0 /* Nothing */ || other.value === this.value);
+            return other.type === this.type && (this.type === 0 /* Nothing */ || TsMonad.eq(other.value, this.value));
         };
         return Maybe;
     })();

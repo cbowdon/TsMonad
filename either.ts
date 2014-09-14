@@ -76,8 +76,8 @@ module TsMonad {
 
         equals(other: Either<L,R>) {
             return other.type === this.type &&
-                ((this.type === EitherType.Left && other.l === this.l) ||
-                (this.type === EitherType.Right && other.r === this.r))
+                ((this.type === EitherType.Left && eq(other.l, this.l)) ||
+                (this.type === EitherType.Right && eq(other.r, this.r)));
         }
     }
 }

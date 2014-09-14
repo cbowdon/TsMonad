@@ -6,7 +6,18 @@ module TsMonad.Test {
 
     QUnit.module('Type class laws');
 
+    class TestEq implements Eq<TestEq> {
+        constructor(private value: string) {}
+        equals(t: TestEq) {
+            return this.value === t.value;
+        }
+    }
+
     QUnit.test('Eq', assert => {
+        // functions rather than values so as to avoid identity equality
+        var wizard  = () => new TestEq('wizard'),
+            wizzard = () => new TestEq('wizzard');
+
         // TODO auto generate all permutations given possible types
         assert.ok(Maybe.just(20).equals(Maybe.just(20)));
         assert.ok(!Maybe.just(20).equals(Maybe.just(10)));
@@ -17,6 +28,18 @@ module TsMonad.Test {
         assert.ok(!Either.right<string,number>(10).equals(Either.right<string,number>(20)));
         assert.ok(!Either.right<string,number>(10).equals(Either.left<string,number>('oook')));
         assert.ok(Either.left<string,number>('oook').equals(Either.left<string,number>('oook')));
+
+        assert.ok(maybe(wizzard()).equals(maybe(wizzard())));
+        assert.ok(!maybe(wizzard()).equals(maybe(wizard())));
+        assert.ok(either<string,TestEq>(null, wizzard()).equals(either<string,TestEq>(null, wizzard())));
+        assert.ok(!either<string,TestEq>(null, wizzard()).equals(either<string,TestEq>(null, wizard())));
+
+        assert.ok(maybe([1,2,3,4]).equals(maybe([1,2,3,4])));
+        assert.ok(!maybe([1,2,3,4]).equals(maybe([1,2,3,4,5])));
+        assert.ok(either<string,number[]>(null, [1,2,3,4]).equals(either<string,number[]>(null, [1,2,3,4])));
+        assert.ok(!either<string,number[]>(null, [1,2,3,4]).equals(either<string,number[]>(null, [1,2,3,99])));
+        assert.ok(either<number[],string>([1,2,3,4]).equals(either<number[],string>([1,2,3,4])));
+        assert.ok(!either<number[],string>([1,2,3,4]).equals(either<number[],string>([1,2,3,4,5])));
     });
 
     // TODO is it worth making Monad extend Eq just to reduce the duplication here?

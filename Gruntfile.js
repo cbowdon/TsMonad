@@ -28,7 +28,7 @@ module.exports = function (grunt) {
             }
         },
         watch: {
-            tasks: 'typescript',
+            tasks: [ 'typescript', 'copy' ],
             files: sources.concat(tests)
         },
         copy: {
