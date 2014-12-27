@@ -114,9 +114,9 @@ Note that for Maybe, if the lifted function returns null or undefined then it re
 
 These monads are the most obviously useful in JavaScript's world of unrestricted mutable state and side effects. I'm currently evaluating which other common monads offer enough benefit to be worth implementing in TypeScript.
 
-#### Where's monad transformers/monoids?
+#### Where's monad transformers?
 
-Sorry. One day.
+Sorry. One day. But for the moment it's not practicable to do this without support for higher-kinded types.
 
 #### Is it [Fantasy Land](https://github.com/fantasyland/fantasy-land) conformant?
 
