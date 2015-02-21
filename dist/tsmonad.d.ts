@@ -107,3 +107,6 @@ declare var module: {
     parent: any;
     children: any[];
 };
+declare module 'tsmonad' {
+    export = TsMonad;
+}

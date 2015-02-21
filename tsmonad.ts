@@ -13,6 +13,10 @@ declare var module: {
     children: any[];
 };
 
+declare module 'tsmonad' {
+    export = TsMonad;
+}
+
 (function () {
     'use strict';
 
