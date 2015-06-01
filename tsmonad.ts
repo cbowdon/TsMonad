@@ -20,7 +20,7 @@ declare module 'tsmonad' {
 (function () {
     'use strict';
 
-    if (typeof module !== undefined && module.exports) {
+    if (typeof module !== 'undefined' && module.exports) {
         // it's node
         module.exports = TsMonad;
     } else {
