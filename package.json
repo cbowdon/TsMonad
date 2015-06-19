@@ -3,8 +3,7 @@
   "version": "0.3.1",
   "description": "TsMonad - fun-size monads library for TypeScript",
   "main": "dist/tsmonad.js",
-  "directories": {
-  },
+  "directories": {},
   "scripts": {
     "test": "echo \"Please open test/index.html in your browser\" && exit 0"
   },
@@ -17,11 +16,15 @@
     "monad",
     "functional"
   ],
-  "author": "Chris Bowdon",
+  "author": {
+    "name": "Chris Bowdon",
+    "url": "https://github.com/cbowdon"
+  },
   "license": "MIT",
   "devDependencies": {
     "blanket": "^1.1.6",
     "grunt": "^0.4.5",
+    "grunt-banner": "^0.4.0",
     "grunt-contrib-copy": "^0.5.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-typescript": "^0.3.8",

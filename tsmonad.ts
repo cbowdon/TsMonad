@@ -13,6 +13,10 @@ declare var module: {
     children: any[];
 };
 
+/**
+ * @name tsmonad
+ * @namespace Hold functionalities related to TsMonad library.
+ */
 declare module 'tsmonad' {
     export = TsMonad;
 }
