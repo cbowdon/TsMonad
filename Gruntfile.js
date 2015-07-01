@@ -52,7 +52,6 @@ module.exports = function (grunt) {
         banner: '// Type definitions for TsMonad\n' +
                 '// Project: https://github.com/cbowdon/TsMonad\n' +
                 '// Definitions by: Chris Bowdon <https://github.com/cbowdon>\n' +
-                '// Definitions by: Valentin Trinque <https://github.com/ValentinTrinque>\n' +
                 '// Definitions: https://github.com/borisyankov/DefinitelyTyped\n',
         usebanner: {
             dts: {
