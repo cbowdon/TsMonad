@@ -24,7 +24,7 @@ Browser:
 
 TypeScript definitions:
 
-    /// <reference path="node_modules/tsmonad/dist/tsmonad.d.js" />
+    /// <reference path="node_modules/tsmonad/dist/tsmonad.d.ts" />
 
 ## Examples (in TypeScript)
 You can see the unit tests for the examples below [online here](https://cbowdon.github.io/tests/TsMonad) and view the source in test/examples.ts.
