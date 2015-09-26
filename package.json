@@ -1,8 +1,9 @@
 {
   "name": "tsmonad",
-  "version": "0.3.2",
+  "version": "0.3.7",
   "description": "TsMonad - fun-size monads library for TypeScript",
   "main": "dist/tsmonad.js",
+  "files": [ "dist", "*.ts", "LICENSE-MIT", "README.md" ],
   "directories": {},
   "scripts": {
     "test": "echo \"Please open test/index.html in your browser\" && exit 0"
