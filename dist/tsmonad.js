@@ -437,6 +437,18 @@ var TsMonad;
         };
 
         /**
+        * @name defaulting
+        * @description Convert a possible Nothing into a guaranteed Maybe.Just.
+        * @methodOf Maybe#
+        * @public
+        * @param {T} pattern Default value to have if Nothing
+        * @return {Maybe<T>}
+        */
+        Maybe.prototype.defaulting = function (defaultValue) {
+            return this.type === 1 /* Just */ ? this : Maybe.just(defaultValue);
+        };
+
+        /**
         * @name equals
         * @description Compare the type and the content of two Maybe
         *     objects.

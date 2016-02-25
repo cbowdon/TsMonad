@@ -448,6 +448,15 @@ declare module TsMonad {
         */
         public caseOf<U>(patterns: MaybePatterns<T, U>): U;
         /**
+        * @name defaulting
+        * @description Convert a possible Nothing into a guaranteed Maybe.Just.
+        * @methodOf Maybe#
+        * @public
+        * @param {T} pattern Default value to have if Nothing
+        * @return {Maybe<T>}
+        */
+        public defaulting(defaultValue: T): Maybe<T>;
+        /**
         * @name equals
         * @description Compare the type and the content of two Maybe
         *     objects.

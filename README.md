@@ -76,6 +76,10 @@ Without Maybe, this would be something like:
 
 Please excuse the messy var scoping and implicit any types in the above. Again, the neat thing about the caseOf method is that it forces you to consider the failure case - it's not always obvious if you're missing a branch of your if-else statement, until it blows up at runtime.
 
+There are some convenience methods in Maybe:
+
+    user.getLikesCookies().defaulting(false);
+
 ### General Either usage
 
     var canRideForFree = user.getAge()  // either 42 or 'Information withheld' - type of Either<string,number>
