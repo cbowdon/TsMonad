@@ -209,6 +209,20 @@ module TsMonad {
         }
 
         /**
+         * @name defaulting
+         * @description Convert a possible Nothing into a guaranteed Maybe.Just.
+         * @methodOf Maybe#
+         * @public
+         * @param {T} pattern Default value to have if Nothing
+         * @return {Maybe<T>}
+         */
+        defaulting(defaultValue: T) {
+            return this.type === MaybeType.Just ?
+                this :
+                Maybe.just(defaultValue);
+        }
+
+        /**
          * @name equals
          * @description Compare the type and the content of two Maybe
          *     objects.

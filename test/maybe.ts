@@ -81,4 +81,20 @@ module TsMonad.Test {
                 nothing: () => false
             }));
     });
+
+    QUnit.test('defaulting', assert => {
+
+        assert.ok(Maybe.just(10).defaulting(20)
+            .caseOf({
+                just: s => s === 10,
+                nothing: () => false
+            }));
+
+        assert.ok(Maybe.nothing<number>().defaulting(20)
+            .caseOf({
+                just: s => s === 20,
+                nothing: () => false
+            }));
+
+    });
 }
