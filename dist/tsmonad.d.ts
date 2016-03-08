@@ -463,6 +463,17 @@ declare module TsMonad {
          * @see Eq#equals
          */
         equals(other: Maybe<T>): any;
+        /**
+         * @name valueOr
+         * @description Unwrap a Maybe with a default value
+         * @methodOf Maybe#
+         * @public
+         * @param {T} defaultValue Default value to have if Nothing
+         * @return {T}
+         * Separate U type to allow Maybe.nothing().valueOr() to match
+         * without explicitly typing Maybe.nothing.
+         */
+        valueOr<U extends T>(defaultValue: U): T | U;
     }
 }
 declare module TsMonad {

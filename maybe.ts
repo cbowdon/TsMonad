@@ -217,9 +217,7 @@ module TsMonad {
          * @return {Maybe<T>}
          */
         defaulting(defaultValue: T) {
-            return this.type === MaybeType.Just ?
-                this :
-                Maybe.just(defaultValue);
+            return Maybe.just(this.valueOr(defaultValue))
         }
 
         /**
@@ -236,6 +234,20 @@ module TsMonad {
         equals(other: Maybe<T>) {
             return other.type === this.type &&
                 (this.type === MaybeType.Nothing || eq(other.value, this.value));
+        }
+
+        /**
+         * @name valueOr
+         * @description Unwrap a Maybe with a default value
+         * @methodOf Maybe#
+         * @public
+         * @param {T} defaultValue Default value to have if Nothing
+         * @return {T}
+         * Separate U type to allow Maybe.nothing().valueOr() to match
+         * without explicitly typing Maybe.nothing.
+         */
+        valueOr<U extends T>(defaultValue: U): T|U {
+            return this.type === MaybeType.Just ? this.value : defaultValue;
         }
     }
 }
