@@ -97,4 +97,24 @@ module TsMonad.Test {
             }));
 
     });
+
+    QUnit.test('Maybe.all', assert => {
+
+        assert.ok(Maybe.all({
+            ten: Maybe.just(10),
+            twenty: Maybe.just(20)
+        }).caseOf({
+            just: (s: any) => s.ten === 10 && s.twenty === 20,
+            nothing: () => false
+        }));
+
+        assert.ok(Maybe.all({
+            ten: Maybe.just(10),
+            twenty: Maybe.nothing()
+        }).caseOf({
+            just: () => false,
+            nothing: () => true
+        }));
+
+    });
 }

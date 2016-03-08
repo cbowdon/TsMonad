@@ -1,8 +1,3 @@
-// Type definitions for TsMonad
-// Project: https://github.com/cbowdon/TsMonad
-// Definitions by: Chris Bowdon <https://github.com/cbowdon>
-// Definitions: https://github.com/borisyankov/DefinitelyTyped
-
 declare module TsMonad {
     /**
     * @name EitherType
@@ -336,6 +331,15 @@ declare module TsMonad {
         * @param {T} value The value to wrap (optional).
         */
         constructor(type: MaybeType, value?: T);
+        /**
+        * @name all
+        * @description Helper function to build a Maybe object.
+        * @methodOf Maybe#
+        * @static
+        * @param {T} t The value to unwrap Maybe values from.
+        * @returns {Maybe<{}>} A Maybe object containing the value passed in input with fields unwrapped from Maybes.
+        */
+        static all<T extends { [k: string]: Maybe<any>; }>(t: T): Maybe<{}>;
         /**
         * @name maybe
         * @description Helper function to build a Maybe object.

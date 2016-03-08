@@ -80,6 +80,14 @@ There are some convenience methods in Maybe:
 
     user.getLikesCookies().defaulting(false);
 
+    // Maybe.just({ three: 3, hi: 'hi'})
+    Maybe.all({ three: Maybe.just(3), hi: Maybe.just('hi') })
+
+    // Maybe.nothing
+    Maybe.all({ three: Maybe.just(3), hi: Maybe.nothing })
+
+
+
 ### General Either usage
 
     var canRideForFree = user.getAge()  // either 42 or 'Information withheld' - type of Either<string,number>
