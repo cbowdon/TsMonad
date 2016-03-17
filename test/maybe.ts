@@ -98,17 +98,33 @@ module TsMonad.Test {
 
     });
 
-    QUnit.test('Maybe.all', assert => {
+    QUnit.test('sequence', assert => {
 
-        assert.ok(Maybe.all({
+        assert.ok(Maybe.sequence({
             ten: Maybe.just(10),
             twenty: Maybe.just(20)
         }).caseOf({
-            just: (s: any) => s.ten === 10 && s.twenty === 20,
+            just: s => s['ten'] === 10 && s['twenty'] === 20,
             nothing: () => false
         }));
 
-        assert.ok(Maybe.all({
+        assert.ok(Maybe.sequence<string|number>({
+            num: Maybe.just(10),
+            str: Maybe.just('union types')
+        }).caseOf({
+            just: x => x['num'] === 10 && x['str'] === 'union types',
+            nothing: () => false
+        }));
+
+        assert.ok(Maybe.sequence<any>({
+            num: Maybe.just(10),
+            str: Maybe.just('dynamic types')
+        }).caseOf({
+            just: (x: any) => x.num === 10 && x.str === 'dynamic types',
+            nothing: () => false
+        }));
+
+        assert.ok(Maybe.sequence({
             ten: Maybe.just(10),
             twenty: Maybe.nothing()
         }).caseOf({
