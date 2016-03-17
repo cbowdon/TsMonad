@@ -3,6 +3,7 @@
   "version": "0.4.1",
   "description": "TsMonad - fun-size monads library for TypeScript",
   "main": "dist/tsmonad.js",
+  "typings": "dist/tsmonad.d.ts",
   "files": [ "dist", "*.ts", "LICENSE-MIT", "README.md" ],
   "directories": {},
   "scripts": {
