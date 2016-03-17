@@ -97,4 +97,12 @@ module TsMonad.Test {
             }));
 
     });
+
+    QUnit.test('valueOr', assert => {
+
+        assert.strictEqual(Maybe.just(10).valueOr(20), 10);
+
+        assert.strictEqual(Maybe.nothing<number>().valueOr(20), 20);
+
+    });
 }

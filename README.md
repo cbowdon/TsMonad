@@ -78,7 +78,8 @@ Please excuse the messy var scoping and implicit any types in the above. Again, 
 
 There are some convenience methods in Maybe:
 
-    user.getLikesCookies().defaulting(false);
+    user.getLikesCookies().defaulting(false); // Maybe<false>
+    user.getLikesCookies().valueOr(false); // false
 
 ### General Either usage
 

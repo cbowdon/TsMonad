@@ -420,9 +420,7 @@ var TsMonad;
          * @return {Maybe<T>}
          */
         Maybe.prototype.defaulting = function (defaultValue) {
-            return this.type === MaybeType.Just ?
-                this :
-                Maybe.just(defaultValue);
+            return Maybe.just(this.valueOr(defaultValue));
         };
         /**
          * @name equals
@@ -438,6 +436,19 @@ var TsMonad;
         Maybe.prototype.equals = function (other) {
             return other.type === this.type &&
                 (this.type === MaybeType.Nothing || TsMonad.eq(other.value, this.value));
+        };
+        /**
+         * @name valueOr
+         * @description Unwrap a Maybe with a default value
+         * @methodOf Maybe#
+         * @public
+         * @param {T} defaultValue Default value to have if Nothing
+         * @return {T}
+         * Separate U type to allow Maybe.nothing().valueOr() to match
+         * without explicitly typing Maybe.nothing.
+         */
+        Maybe.prototype.valueOr = function (defaultValue) {
+            return this.type === MaybeType.Just ? this.value : defaultValue;
         };
         return Maybe;
     })();
