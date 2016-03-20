@@ -124,6 +124,14 @@ module TsMonad.Test {
             nothing: () => false
         }));
 
+        assert.ok(Maybe.all<any>({
+            num: Maybe.just(10),
+            str: Maybe.just('alias')
+        }).caseOf({
+            just: (x: any) => x.num === 10 && x.str === 'alias',
+            nothing: () => false
+        }));
+
         assert.ok(Maybe.sequence({
             ten: Maybe.just(10),
             twenty: Maybe.nothing()

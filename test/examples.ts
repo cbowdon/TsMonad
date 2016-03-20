@@ -74,7 +74,6 @@ module TsMonad.Test {
                     nothing: () => {}
                 }));
 
-        // Maybe.nothing
         assert.ok(
             Maybe.sequence<number>({ three: Maybe.just(3), hi: Maybe.nothing() })
                 .caseOf({
