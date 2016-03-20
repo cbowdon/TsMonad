@@ -64,6 +64,25 @@ module TsMonad.Test {
         assert.ok(canRideForFree);
     });
 
+    QUnit.test('Maybe helpers', assert => {
+
+        assert.deepEqual(
+            { three: 3, hi: 'hi'}, 
+            Maybe.sequence<number|string>({ three: Maybe.just(3), hi: Maybe.just('hi') })
+                .caseOf({
+                    just: (map: any) => map,
+                    nothing: () => {}
+                }));
+
+        // Maybe.nothing
+        assert.ok(
+            Maybe.sequence<number>({ three: Maybe.just(3), hi: Maybe.nothing() })
+                .caseOf({
+                    just: (map: any) => false,
+                    nothing: () => true
+                }));
+    });
+
     QUnit.test('General Either usage', assert => {
         var user: User<Either<string,number>>,
             canRideForFree: boolean;

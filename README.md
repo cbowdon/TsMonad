@@ -81,10 +81,10 @@ There are some convenience methods in Maybe:
     user.getLikesCookies().defaulting(false);
 
     // Maybe.just({ three: 3, hi: 'hi'})
-    Maybe.all({ three: Maybe.just(3), hi: Maybe.just('hi') })
+    Maybe.sequence<number|string>({ three: Maybe.just(3), hi: Maybe.just('hi') });
 
     // Maybe.nothing
-    Maybe.all({ three: Maybe.just(3), hi: Maybe.nothing })
+    Maybe.sequence<number>({ three: Maybe.just(3), hi: Maybe.nothing() });
 
 
 
