@@ -64,6 +64,36 @@ module TsMonad {
                     private value?: T) {}
 
         /**
+         * @name sequence
+         * @description Helper function to convert a map of Maybe objects into a Maybe of a map of objects.
+         * @methodOf Maybe#
+         * @static
+         * @param {{[id: string]: Maybe<T>}} t The value to unwrap Maybe values from.
+         * @returns {Maybe<{[id: string]: T}>} A Maybe object containing the value passed in input with fields unwrapped from Maybes.
+         */
+        static sequence<T>(t: {[k: string]: Maybe<T>}): Maybe<{[k: string]: T}> {
+            if (Object.keys(t).filter(k => t[k].type === MaybeType.Nothing).length) {
+                return Maybe.nothing<{[k: string]: T}>();
+            }
+            var result: {[k: string]: any} = {};
+            for (var k in t) {
+                if (t.hasOwnProperty(k)) {
+                    result[k] = t[k].value;
+                }
+            }
+            return Maybe.just(result);
+        }
+
+        /**
+         * @name all
+         * @description Alias for Maybe.sequence
+         * @methodOf Maybe#
+         * @static
+         * @see Maybe#sequence
+         */
+        static all = Maybe.sequence;
+
+        /**
          * @name maybe
          * @description Helper function to build a Maybe object.
          * @methodOf Maybe#

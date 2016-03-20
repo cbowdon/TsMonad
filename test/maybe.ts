@@ -103,6 +103,48 @@ module TsMonad.Test {
         assert.strictEqual(Maybe.just(10).valueOr(20), 10);
 
         assert.strictEqual(Maybe.nothing<number>().valueOr(20), 20);
+    });
+    
+    QUnit.test('sequence', assert => {
 
+        assert.ok(Maybe.sequence({
+            ten: Maybe.just(10),
+            twenty: Maybe.just(20)
+        }).caseOf({
+            just: s => s['ten'] === 10 && s['twenty'] === 20,
+            nothing: () => false
+        }));
+
+        assert.ok(Maybe.sequence<string|number>({
+            num: Maybe.just(10),
+            str: Maybe.just('union types')
+        }).caseOf({
+            just: x => x['num'] === 10 && x['str'] === 'union types',
+            nothing: () => false
+        }));
+
+        assert.ok(Maybe.sequence<any>({
+            num: Maybe.just(10),
+            str: Maybe.just('dynamic types')
+        }).caseOf({
+            just: (x: any) => x.num === 10 && x.str === 'dynamic types',
+            nothing: () => false
+        }));
+
+        assert.ok(Maybe.all<any>({
+            num: Maybe.just(10),
+            str: Maybe.just('alias')
+        }).caseOf({
+            just: (x: any) => x.num === 10 && x.str === 'alias',
+            nothing: () => false
+        }));
+
+        assert.ok(Maybe.sequence({
+            ten: Maybe.just(10),
+            twenty: Maybe.nothing()
+        }).caseOf({
+            just: () => false,
+            nothing: () => true
+        }));
     });
 }
