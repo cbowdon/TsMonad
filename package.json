@@ -1,6 +1,6 @@
 {
   "name": "tsmonad",
-  "version": "0.4.1",
+  "version": "0.5.2",
   "description": "TsMonad - fun-size monads library for TypeScript",
   "main": "dist/tsmonad.js",
   "typings": "dist/tsmonad.d.ts",
@@ -8,6 +8,7 @@
   "directories": {},
   "scripts": {
     "build": "grunt",
+    "prepublish": "grunt",
     "test": "echo \"Please open test/index.html in your browser\" && exit 0"
   },
   "repository": {
