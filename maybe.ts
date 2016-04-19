@@ -91,7 +91,7 @@ module TsMonad {
          * @static
          * @see Maybe#sequence
          */
-        static all = Maybe.sequence;
+        static all = (t: {[k: string]: Maybe<any>}) => Maybe.sequence<any>(t);
 
         /**
          * @name maybe
