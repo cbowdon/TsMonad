@@ -291,7 +291,10 @@ module TsMonad {
          * @return The original Maybe value.
          * @see MaybePatterns#
          */
-        do(patterns: MaybePatterns<T, void>): Maybe<T> {
+        do(patterns: MaybePatterns<T, void> = {
+            just: (t: T) => {},
+            nothing: () => {},
+        }): Maybe<T> {
             this.caseOf(patterns);
             return this;
         }
