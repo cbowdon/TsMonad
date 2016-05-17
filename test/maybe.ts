@@ -21,6 +21,28 @@ module TsMonad.Test {
             }));
     });
 
+    QUnit.test('Do', assert => {
+
+      assert.throws(
+          Maybe.just(123).do({
+              just: (v) => { throws 'yes'; },
+              nothing: () => { throws 'no'; },
+          }),
+          /yes/,
+          'do has a `just` path'
+      );
+
+      assert.throws(
+          Maybe.nothing().do({
+              just: (v) => { throws 'yes'; },
+              nothing: () => { throws 'no'; },
+          }),
+          /no/,
+          'do has a `nothing` path'
+      );
+
+    });
+
     QUnit.test('Bind', assert => {
 
         assert.ok(Maybe.just(2)
@@ -104,7 +126,7 @@ module TsMonad.Test {
 
         assert.strictEqual(Maybe.nothing<number>().valueOr(20), 20);
     });
-    
+
     QUnit.test('sequence', assert => {
 
         assert.ok(Maybe.sequence({
@@ -146,5 +168,6 @@ module TsMonad.Test {
             just: () => false,
             nothing: () => true
         }));
+
     });
 }

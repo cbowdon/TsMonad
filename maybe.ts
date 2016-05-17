@@ -32,6 +32,12 @@ module TsMonad {
         nothing: () => U;
     }
 
+    // ditto, but optional
+    export interface OptionalMaybePatterns<T,U> {
+        just?: (t: T) => U;
+        nothing?: () => U;
+    }
+
     /**
      * @name maybe
      * @description Build a Maybe object.
@@ -279,25 +285,27 @@ module TsMonad {
         valueOr<U extends T>(defaultValue: U): T|U {
             return this.type === MaybeType.Just ? this.value : defaultValue;
         }
-        
+
         /**
-         * @name caseOf
+         * @name do
          * @description Execute a function based on the Maybe content. Returns the
          *     original value, so is meant for running functions with side-effects.
          * @methodOf Maybe#
          * @public
-         * @param {MaybePatterns<T, U>} pattern Object containing the
-         *     functions to applied on each Maybe types.
+         * @param {OptionalMaybePatterns<T, U>} pattern Object containing the
+         *     functions to applied on each Maybe type.
          * @return The original Maybe value.
-         * @see MaybePatterns#
+         * @see OptionalMaybePatterns#
          */
-        do(patterns: MaybePatterns<T, void> = {
-            just: (t: T) => {},
-            nothing: () => {},
-        }): Maybe<T> {
-            this.caseOf(patterns);
+        do(patterns: OptionalMaybePatterns<T, void> = {}): Maybe<T> {
+            let noop_pattern = {
+                just: (t: T) => {},
+                nothing: () => {},
+            };
+            let merged = Object.assign(noop_pattern, patterns);
+            this.caseOf(merged);
             return this;
         }
-        
+
     }
 }

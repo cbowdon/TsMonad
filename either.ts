@@ -29,6 +29,12 @@ module TsMonad {
         right: (r: R) => T;
     }
 
+    // ditto, but optional
+    export interface OptionalEitherPatterns<L,R,T> {
+        left?: (l: L) => T;
+        right?: (r: R) => T;
+    }
+
     function exists<T>(t: T) {
         return t !== null && t !== undefined;
     }
@@ -222,5 +228,27 @@ module TsMonad {
                 ((this.type === EitherType.Left && eq(other.l, this.l)) ||
                 (this.type === EitherType.Right && eq(other.r, this.r)));
         }
+
+        /**
+         * @name do
+         * @description Execute a function based on the Either content. Returns the
+         *     original value, so is meant for running functions with side-effects.
+         * @methodOf Either#
+         * @public
+         * @param {OptionalEitherPatterns<T, U>} pattern Object containing the
+         *     functions to applied on each Either type.
+         * @return The original Either value.
+         * @see OptionalEitherPatterns#
+         */
+        do(patterns: OptionalEitherPatterns<L, R, void> = {}): Either<L, R> {
+            let noop_pattern = {
+                left: (l: L) => {},
+                right: (r: R) => {},
+            };
+            let merged = Object.assign(noop_pattern, patterns);
+            this.caseOf(merged);
+            return this;
+        }
+
     }
 }

@@ -21,6 +21,28 @@ module TsMonad.Test {
             }));
     });
 
+    QUnit.test('Do', assert => {
+
+      assert.throws(
+          Either.either('l', null).do({
+              left: (l) => { throws 'left'; },
+              right: (r) => { throws 'right'; },
+          }),
+          /left/,
+          'do has a `left` path'
+      );
+
+      assert.throws(
+          Either.either(null, 'r').do({
+            left: (l) => { throws 'left'; },
+            right: (r) => { throws 'right'; },
+          }),
+          /right/,
+          'do has a `right` path'
+      );
+
+    });
+
     QUnit.test('Bind', assert => {
 
         assert.ok(Either.right<string, number>(2)
