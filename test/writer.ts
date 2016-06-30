@@ -1,12 +1,11 @@
-/// <reference path="../typings/tsd.d.ts" />
-/// <reference path="../dist/tsmonad.d.ts" />
+import * as _ from 'underscore'
+import * as assert from 'assert'
 
-module TsMonad.Test {
-    'use strict';
+import {Writer, writer} from '../src/writer'
 
-    QUnit.module('Writer');
+describe('Writer', () => {
 
-    QUnit.test('Bind', assert => {
+    it('Bind', () => {
 
         assert.ok(Writer.tell(0)
             .bind(x => Writer.writer([1,0,1], 'jazzy'))
@@ -18,7 +17,7 @@ module TsMonad.Test {
             .equals(Writer.writer(['This ', 'is a ', 'story'], 99)));
     });
 
-    QUnit.test('Case of', assert => {
+    it('Case of', () => {
 
         assert.ok(Writer.tell('all about')
             .caseOf({
@@ -26,7 +25,7 @@ module TsMonad.Test {
             }));
     });
 
-    QUnit.test('Lift', assert => {
+    it('Lift', () => {
 
         assert.ok(Writer.tell('how')
             .lift(x => [0,0,0,0])
@@ -36,11 +35,13 @@ module TsMonad.Test {
             }));
     });
 
-    QUnit.test('Constructors', assert => {
+    it('Constructors', () => {
 
         assert.ok(writer(['my'], 1234)
             .caseOf({
                 writer: (s, v) => _.isEqual(s, ['my']) && v === 1234
             }));
     });
-}
+
+})
+

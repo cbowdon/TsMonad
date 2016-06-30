@@ -1,13 +1,11 @@
-/// <reference path="../typings/tsd.d.ts" />
-/// <reference path="../dist/tsmonad.d.ts" />
+import {Maybe, Either, Writer} from '../src'
 
-module TsMonad.Test {
-    'use strict';
+import * as assert from 'assert'
 
-    // TODO Automatically populate the README sections from the examples tests
-    QUnit.module('Examples');
+// TODO Automatically populate the README sections from the examples tests
+describe('Examples', () => {
 
-    QUnit.test('Pattern matching', assert => {
+    it('Pattern matching', () => {
         var turns_out_to_be_100: number,
             turns_out_to_be_a_piano: number;
 
@@ -42,13 +40,13 @@ module TsMonad.Test {
     }
     // </Test data definitions>
 
-    QUnit.test('General Maybe usage', assert => {
+    it('General Maybe usage', () => {
         var user: User<Maybe<number>>,
             canRideForFree: boolean;
 
         function getBusPass(age: number) : Maybe<BusPass> {
             return age > 100 ?
-                Maybe.nothing() :
+                Maybe.nothing<BusPass>() :
                 Maybe.just(new BusPass())
         }
 
@@ -64,7 +62,7 @@ module TsMonad.Test {
         assert.ok(canRideForFree);
     });
 
-    QUnit.test('Maybe helpers', assert => {
+    it('Maybe helpers', () => {
 
         assert.deepEqual(
             { three: 3, hi: 'hi'}, 
@@ -75,24 +73,24 @@ module TsMonad.Test {
                 }));
 
         assert.ok(
-            Maybe.sequence<number>({ three: Maybe.just(3), hi: Maybe.nothing() })
+            Maybe.sequence<number>({ three: Maybe.just(3), hi: Maybe.nothing<number>() })
                 .caseOf({
                     just: (map: any) => false,
                     nothing: () => true
                 }));
     });
 
-    QUnit.test('General Either usage', assert => {
+    it('General Either usage', () => {
         var user: User<Either<string,number>>,
             canRideForFree: boolean;
 
         function getBusPass(age: number) : Either<string,BusPass> {
             return age > 100 ?
-                Either.left('Too young for a bus pass') :
-                Either.right(new BusPass());
+                Either.left<string, BusPass>('Too young for a bus pass') :
+                Either.right<string, BusPass>(new BusPass());
         }
 
-        user = { getAge: () => Either.right(42) };
+        user = { getAge: () => Either.right<string, number>(42) };
 
         canRideForFree = user.getAge()  // either 42 or 'Information withheld' - type of Either<string,number>
             .bind(age => getBusPass(age))   // either busPass or 'Too young for a bus pass' - type of Either<string,BusPass>
@@ -104,7 +102,7 @@ module TsMonad.Test {
         assert.ok(canRideForFree);
     });
 
-    QUnit.test('General Writer usage', assert => {
+    it('General Writer usage', () => {
 
         assert.ok(Writer.writer(['Started with 0'], 0)
             .bind(x => Writer.writer(['+ 8'], x + 8))
@@ -114,7 +112,7 @@ module TsMonad.Test {
             }));
     });
 
-    QUnit.test('Lift/fmap', assert => {
+    it('Lift/fmap', () => {
         var turns_out_to_be_true = Maybe.just(123)
             .lift(n => n * 2)
             .caseOf({
@@ -124,4 +122,4 @@ module TsMonad.Test {
 
         assert.ok(turns_out_to_be_true);
     });
-}
+})

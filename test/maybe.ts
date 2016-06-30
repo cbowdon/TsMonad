@@ -1,12 +1,11 @@
-/// <reference path="../typings/tsd.d.ts" />
-/// <reference path="../dist/tsmonad.d.ts" />
+import {Maybe, maybe} from '../src/maybe'
 
-module TsMonad.Test {
-    'use strict';
+import * as assert from 'assert'
 
-    QUnit.module('Maybe');
 
-    QUnit.test('Case of', assert => {
+describe('Maybe', () => {
+
+    it('Case of', () => {
 
         assert.ok(Maybe.just(10)
             .caseOf({
@@ -21,29 +20,29 @@ module TsMonad.Test {
             }));
     });
 
-    QUnit.test('Do', assert => {
+    it('Do', () => {
 
-      assert.throws(
-          Maybe.just(123).do({
-              just: (v) => { throws 'yes'; },
-              nothing: () => { throws 'no'; },
-          }),
-          /yes/,
-          'do has a `just` path'
-      );
+        assert.throws(() =>
+            Maybe.just(123).do({
+                just: (v) => { throw 'yes'; },
+                nothing: () => { throw 'no'; },
+            }),
+            /yes/,
+            'do has a `just` path'
+        );
 
-      assert.throws(
-          Maybe.nothing().do({
-              just: (v) => { throws 'yes'; },
-              nothing: () => { throws 'no'; },
-          }),
-          /no/,
-          'do has a `nothing` path'
-      );
+        assert.throws(() =>
+            Maybe.nothing().do({
+                just: (v) => { throw 'yes'; },
+                nothing: () => { throw 'no'; },
+            }),
+            /no/,
+            'do has a `nothing` path'
+        );
 
     });
 
-    QUnit.test('Bind', assert => {
+    it('Bind', () => {
 
         assert.ok(Maybe.just(2)
             .bind(n => Maybe.just(n * 2))
@@ -62,7 +61,7 @@ module TsMonad.Test {
             }));
     });
 
-    QUnit.test('Lift', assert => {
+    it('Lift', () => {
 
         assert.ok(Maybe.just(2)
             .lift(n => n * 2)
@@ -81,7 +80,7 @@ module TsMonad.Test {
             }));
     });
 
-    QUnit.test('Constructors', assert => {
+    it('Constructors', () => {
 
         assert.throws(() => { Maybe.just(<string>null) }, /null/);
 
@@ -104,7 +103,7 @@ module TsMonad.Test {
             }));
     });
 
-    QUnit.test('defaulting', assert => {
+    it('defaulting', () => {
 
         assert.ok(Maybe.just(10).defaulting(20)
             .caseOf({
@@ -120,14 +119,14 @@ module TsMonad.Test {
 
     });
 
-    QUnit.test('valueOr', assert => {
+    it('valueOr', () => {
 
         assert.strictEqual(Maybe.just(10).valueOr(20), 10);
 
         assert.strictEqual(Maybe.nothing<number>().valueOr(20), 20);
     });
 
-    QUnit.test('sequence', assert => {
+    it('sequence', () => {
 
         assert.ok(Maybe.sequence({
             ten: Maybe.just(10),
@@ -170,4 +169,5 @@ module TsMonad.Test {
         }));
 
     });
-}
+
+})

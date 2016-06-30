@@ -1,12 +1,10 @@
-/// <reference path="../typings/tsd.d.ts" />
-/// <reference path="../dist/tsmonad.d.ts" />
+import {Either, either} from '../src/either'
 
-module TsMonad.Test {
-    'use strict';
+import * as assert from 'assert'
 
-    QUnit.module('Either');
+describe('Either', () => {
 
-    QUnit.test('Case of', assert => {
+    it('Case of', () => {
 
         assert.ok(Either.left<string, number>('on noes')
             .caseOf({
@@ -21,29 +19,29 @@ module TsMonad.Test {
             }));
     });
 
-    QUnit.test('Do', assert => {
+    it('Do', () => {
 
-      assert.throws(
-          Either.either('l', null).do({
-              left: (l) => { throws 'left'; },
-              right: (r) => { throws 'right'; },
-          }),
-          /left/,
-          'do has a `left` path'
-      );
+        assert.throws(() =>
+            either('l', null).do({
+                left: (l) => { throw 'left'; },
+                right: (r) => { throw 'right'; },
+            }),
+            /left/,
+            'do has a `left` path'
+        );
 
-      assert.throws(
-          Either.either(null, 'r').do({
-            left: (l) => { throws 'left'; },
-            right: (r) => { throws 'right'; },
-          }),
-          /right/,
-          'do has a `right` path'
-      );
+        assert.throws(() =>
+            either(null, 'r').do({
+            left: (l) => { throw 'left'; },
+            right: (r) => { throw 'right'; },
+            }),
+            /right/,
+            'do has a `right` path'
+        );
 
     });
 
-    QUnit.test('Bind', assert => {
+    it('Bind', () => {
 
         assert.ok(Either.right<string, number>(2)
             .bind(n => Either.right<string, number>(n * 2))
@@ -62,7 +60,7 @@ module TsMonad.Test {
             }));
     });
 
-    QUnit.test('Lift', assert => {
+    it('Lift', () => {
 
         assert.ok(Either.right<string, number>(2)
             .lift(n => n * 2)
@@ -83,7 +81,7 @@ module TsMonad.Test {
             }));
     });
 
-    QUnit.test('Constructors', assert => {
+    it('Constructors', () => {
 
         assert.ok(either<string, number>('oh noes')
             .caseOf({
@@ -100,4 +98,5 @@ module TsMonad.Test {
         assert.throws(() => either('not both', 123), /both/);
         assert.throws(() => either<string,number>(), /neither/);
     });
-}
+
+})
