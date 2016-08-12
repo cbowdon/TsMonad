@@ -279,5 +279,20 @@ module TsMonad {
         valueOr<U extends T>(defaultValue: U): T|U {
             return this.type === MaybeType.Just ? this.value : defaultValue;
         }
+
+        /**
+         * @name valueOrThrow
+         * @description Unwrap a Maybe throwing if it is nothing
+         * @methodOf Maybe#
+         * @public
+         * @param {Error} [error] Optional error to throw
+         * @return {T}
+         */
+        valueOrThrow(error?: Error): T {
+            if (this.type === MaybeType.Just) {
+                return this.value;
+            }
+            throw (error || new Error('No value is available.'))
+        }
     }
 }

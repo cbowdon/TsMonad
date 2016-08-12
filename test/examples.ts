@@ -48,7 +48,7 @@ module TsMonad.Test {
 
         function getBusPass(age: number) : Maybe<BusPass> {
             return age > 100 ?
-                Maybe.nothing() :
+                Maybe.nothing<BusPass>() :
                 Maybe.just(new BusPass())
         }
 
@@ -75,7 +75,7 @@ module TsMonad.Test {
                 }));
 
         assert.ok(
-            Maybe.sequence<number>({ three: Maybe.just(3), hi: Maybe.nothing() })
+            Maybe.sequence<number>({ three: Maybe.just(3), hi: Maybe.nothing<number>() })
                 .caseOf({
                     just: (map: any) => false,
                     nothing: () => true

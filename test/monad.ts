@@ -21,7 +21,7 @@ module TsMonad.Test {
         // TODO auto generate all permutations given possible types
         assert.ok(Maybe.just(20).equals(Maybe.just(20)));
         assert.ok(!Maybe.just(20).equals(Maybe.just(10)));
-        assert.ok(!Maybe.just(20).equals(Maybe.nothing()));
+        assert.ok(!Maybe.just(20).equals(Maybe.nothing<number>()));
         assert.ok(Maybe.nothing().equals(Maybe.nothing()));
 
         assert.ok(Either.right<string,number>(10).equals(Either.right<string,number>(10)));
