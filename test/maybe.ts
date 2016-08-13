@@ -105,6 +105,17 @@ module TsMonad.Test {
         assert.strictEqual(Maybe.nothing<number>().valueOr(20), 20);
     });
 
+    QUnit.test('valueOrCompute', assert => {
+
+        assert.strictEqual(Maybe.just(10).valueOrCompute(() => 20), 10);
+
+        assert.strictEqual(Maybe.nothing<number>().valueOrCompute(() => 20), 20);
+
+        assert.strictEqual(Maybe.just(10).valueOrCompute(() => { throw new Error() }), 10);
+
+        assert.throws(() => Maybe.nothing().valueOrCompute(() => { throw new Error() }));
+    });
+
     QUnit.test('valueOrThrow', assert => {
 
         assert.strictEqual(Maybe.just(10).valueOrThrow(), 10);

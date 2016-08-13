@@ -277,7 +277,21 @@ module TsMonad {
          * without explicitly typing Maybe.nothing.
          */
         valueOr<U extends T>(defaultValue: U): T|U {
-            return this.type === MaybeType.Just ? this.value : defaultValue;
+            return this.valueOrCompute(() => defaultValue);
+        }
+
+        /**
+         * @name valueOrCompute
+         * @description Unwrap a Maybe with a default value computed from a thunk
+         * @methodOf Maybe#
+         * @public
+         * @param {T} defaultValueFunction Default value to compute if Nothing
+         * @return {T}
+         * Separate U type to allow Maybe.nothing().valueOrCompute() to match
+         * without explicitly typing Maybe.nothing.
+         */
+        valueOrCompute<U extends T>(defaultValueFunction: U): T|U {
+            return this.type === MaybeType.Just ? this.value : defaultValueFunction();
         }
 
         /**
@@ -289,10 +303,9 @@ module TsMonad {
          * @return {T}
          */
         valueOrThrow(error?: Error): T {
-            if (this.type === MaybeType.Just) {
-                return this.value;
-            }
-            throw (error || new Error('No value is available.'))
+            return this.valueOrCompute(() => {
+              throw (error || new Error('No value is available.'))
+            })
         }
     }
 }
