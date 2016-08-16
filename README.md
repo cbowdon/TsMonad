@@ -80,6 +80,7 @@ There are some convenience methods in Maybe:
 
     user.getLikesCookies().defaulting(false); // Maybe<false>
     user.getLikesCookies().valueOr(false); // false
+    user.getLikesCookies().valueOrCompute(() => expensiveCalculation());
     user.getLikesCookies().valueOrThrow(new Error());
 
     // Maybe.just({ three: 3, hi: 'hi'})
