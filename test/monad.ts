@@ -1,10 +1,13 @@
-/// <reference path="../typings/tsd.d.ts" />
-/// <reference path="../dist/tsmonad.d.ts" />
+import {Either, either} from '../src/either'
+import {Maybe, maybe} from '../src/maybe'
+import {Writer, writer} from '../src/writer'
+import {Eq} from '../src/monad'
 
-module TsMonad.Test {
-    'use strict';
+import * as assert from 'assert'
+import * as _ from 'underscore'
 
-    QUnit.module('Type class laws');
+describe('Type class laws', () => {
+
 
     class TestEq implements Eq<TestEq> {
         constructor(private value: string) {}
@@ -13,7 +16,7 @@ module TsMonad.Test {
         }
     }
 
-    QUnit.test('Eq', assert => {
+    it('Eq', () => {
         // functions rather than values so as to avoid identity equality
         var wizard  = () => new TestEq('wizard'),
             wizzard = () => new TestEq('wizzard');
@@ -44,7 +47,7 @@ module TsMonad.Test {
 
     // TODO is it worth making Monad extend Eq just to reduce the duplication here?
 
-    QUnit.test('Functor 1: fmap id = id', assert => {
+    it('Functor 1: fmap id = id', () => {
 
         _.each([ Maybe.just(20), Maybe.nothing<number>() ],
             t => assert.ok(t.equals(t.fmap(x => x))));
@@ -56,7 +59,7 @@ module TsMonad.Test {
             t => assert.ok(t.equals(t.fmap(x => x))));
     });
 
-    QUnit.test('Functor 2: fmap (f . g) = fmap f . fmap g', assert => {
+    it('Functor 2: fmap (f . g) = fmap f . fmap g', () => {
         var f = (x: number) => x * 2,
             g = (x: number) => x - 3;
 
@@ -82,7 +85,7 @@ module TsMonad.Test {
             });
     });
 
-    QUnit.test('Monad 1: left identity', assert => {
+    it('Monad 1: left identity', () => {
         // (return x >>= f) = f x
         var n = 10,
             fm = (x: number) => Maybe.just(2 * x),
@@ -102,7 +105,7 @@ module TsMonad.Test {
             .equals(fw(n)));
     });
 
-    QUnit.test('Monad 2: right identity', assert => {
+    it('Monad 2: right identity', () => {
         // (m >>= return) = m
         var m = Maybe.just(20),
             e = Either.right<string,number>(20),
@@ -115,7 +118,7 @@ module TsMonad.Test {
         assert.ok(w.bind(w.unit).equals(w));
     });
 
-    QUnit.test('Monad 3: associativity', assert => {
+    it('Monad 3: associativity', () => {
         // ((m >>= f) >>= g) = (m >>= (\x -> f x >>= g))
         var n = 10,
             m = Maybe.just(n),
@@ -137,4 +140,4 @@ module TsMonad.Test {
         assert.ok(w.bind(fw).bind(gw)
             .equals(w.bind(x => fw(x).bind(gw))));
     });
-}
+})
