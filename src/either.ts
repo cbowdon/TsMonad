@@ -82,9 +82,9 @@ export class Either<L,R> implements Monad<R>, Functor<R>, Eq<Either<L,R>> {
      * @param {L} l The Left value (optional).
      * @param {R} l The Right value (optional).
      */
-    constructor(private type: EitherType,
-                private l?: L,
-                private r?: R) {}
+    constructor(protected type: EitherType,
+                protected l?: L,
+                protected r?: R) {}
 
     /**
      * @name left

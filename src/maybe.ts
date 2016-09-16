@@ -63,8 +63,8 @@ export class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
      * @param {MaybeType} type Indicates if the Maybe content is a Just or a Nothing.
      * @param {T} value The value to wrap (optional).
      */
-    constructor(private type: MaybeType,
-                private value?: T) {}
+    constructor(protected type: MaybeType,
+                protected value?: T) {}
 
     /**
      * @name sequence

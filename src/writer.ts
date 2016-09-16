@@ -44,7 +44,7 @@ export class Writer<S,T> implements Monad<T>, Eq<Writer<S,T>> {
      * @param {S[]} story The collection of logs.
      * @param {T} value The object to wrap.
      */
-    constructor(private story: S[], private value: T) {}
+    constructor(protected story: S[], protected value: T) {}
 
     /**
      * @name writer
