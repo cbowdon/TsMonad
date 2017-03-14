@@ -31,7 +31,7 @@ You can see the unit tests for the examples below [online here](https://cbowdon.
 
 ### Pattern matching emulation
 
-```js
+```ts
 var turns_out_to_be_100 = Maybe.just(10)
     .caseOf({
         just: n => n * n,
@@ -56,7 +56,7 @@ var turns_out_to_throw_a_compiler_error = Maybe.just(321)
 
 The Maybe monad can simplify processing of values that may not exist:
 
-```js
+```ts
 var canRideForFree = user.getAge()  // user might not have provided age, this is a Maybe<number>
     .bind(age => getBusPass(age))   // not all ages have a bus pass, this is a Maybe<BusPass>
     .caseOf({
@@ -67,7 +67,7 @@ var canRideForFree = user.getAge()  // user might not have provided age, this is
 
 Without Maybe, this would be something like:
 
-```js
+```ts
 var canRideForFree,
     age = user.getAge(); // might be null or undefined
 
@@ -84,7 +84,7 @@ Please excuse the messy var scoping and implicit any types in the above. Again, 
 
 There are some convenience methods in Maybe:
 
-```js
+```ts
 user.getLikesCookies().defaulting(false); // Maybe<false>
 user.getLikesCookies().valueOr(false); // false
 user.getLikesCookies().valueOrCompute(() => expensiveCalculation());
@@ -99,7 +99,7 @@ Maybe.sequence<number>({ three: Maybe.just(3), hi: Maybe.nothing() });
 
 ### General Either usage
 
-```js
+```ts
 var canRideForFree = user.getAge()  // either 42 or 'Information withheld' - type of Either<string,number>
     .bind(age => getBusPass(age))   // either busPass or 'Too young for a bus pass' - type of Either<string,BusPass>
     .caseOf({
@@ -112,7 +112,7 @@ var canRideForFree = user.getAge()  // either 42 or 'Information withheld' - typ
 
 Somewhat contrived example of recording arithmetic operations:
 
-```js
+```ts
 var is_true = Writer.writer(['Started with 0'], 0)
     .bind(x => Writer.writer(['+ 8'], x + 8))
     .bind(x => Writer.writer(['- 6', '* 8'], 8 * (x - 6)))
@@ -125,7 +125,7 @@ var is_true = Writer.writer(['Started with 0'], 0)
 
 The lift method takes a lambda, applies it to the wrapped value and calls the unit function of the monad on the result (e.g. for Maybe it calls just). Useful when you want to bind to a function that doesn't return a monad.
 
-```js
+```ts
 var turns_out_to_be_true = Maybe.just(123)
     .lift(n => n * 2)
     .caseOf({
