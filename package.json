@@ -1,6 +1,6 @@
 {
   "name": "tsmonad",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "TsMonad - fun-size monads library for TypeScript",
   "main": "./dist/tsmonad.js",
   "typings": "./lib/src/index",
