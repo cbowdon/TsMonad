@@ -19,7 +19,6 @@
     "prepublish": "npm run build",
     "test": "mocha lib/test"
   },
-  "typings": "dist/tsmonad.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/cbowdon/TsMonad.git"
