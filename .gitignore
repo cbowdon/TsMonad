@@ -1,3 +1,4 @@
-dist
-node_modules
-lib
+dist/
+node_modules/
+lib/
+typings/

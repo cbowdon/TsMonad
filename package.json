@@ -12,6 +12,7 @@
   ],
   "directories": {},
   "scripts": {
+    "postinstall": "typings prune && typings i",
     "clean": "rm -rf dist lib",
     "prebuild": "npm run test",
     "build": "webpack lib/src/index.js dist/tsmonad.js -p --devtool source-map --output-library-target umd",
@@ -19,7 +20,6 @@
     "prepublish": "npm run build",
     "test": "mocha lib/test"
   },
-  "typings": "dist/tsmonad.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/cbowdon/TsMonad.git"
@@ -37,7 +37,8 @@
   "devDependencies": {
     "assert": "^1.4.1",
     "mocha": "^2.5.3",
-    "typescript": "^1.8.10",
+    "typescript": "2.2.2",
+    "typings": "2.1.0",
     "underscore": "^1.8.3",
     "webpack": "^1.13.1"
   }

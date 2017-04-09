@@ -16,9 +16,10 @@
         "suppressImplicitAnyIndexErrors": true,
         "outDir": "lib"
     },
-    "exclude": [
-        "node_modules",
-        "typings/lib"
+    "include": [
+        "./src/**/*",
+        "./test/**/*",
+        "./typings/index.d.ts"
     ],
     "compileOnSave": true,
     "buildOnSave": false,
