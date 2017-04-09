@@ -9,7 +9,6 @@
         "noImplicitUseStrict": false,
         "removeComments": true,
         "preserveConstEnums": true,
-        "suppressImplicitAnyIndexErrors": true,
         "outDir": "lib",
         "lib": [
             "es6",
