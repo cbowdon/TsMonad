@@ -5,7 +5,6 @@
     "global": "file:typings/lib/global.d.ts"
   },
   "globalDevDependencies": {
-    "mocha": "registry:dt/mocha#2.2.5+20160619032855",
-    "underscore": "registry:dt/underscore#1.7.0+20160622050840"
+    "mocha": "registry:dt/mocha#2.2.5+20160619032855"
   }
 }
