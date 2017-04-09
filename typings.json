@@ -3,8 +3,5 @@
   "dependencies": {},
   "globalDependencies": {
     "global": "file:typings/lib/global.d.ts"
-  },
-  "globalDevDependencies": {
-    "mocha": "registry:dt/mocha#2.2.5+20160619032855"
   }
 }
