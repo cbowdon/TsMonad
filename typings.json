@@ -1,7 +1,0 @@
-{
-  "name": "tsmonad",
-  "dependencies": {},
-  "globalDependencies": {
-    "global": "file:typings/lib/global.d.ts"
-  }
-}

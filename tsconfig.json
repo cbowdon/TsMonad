@@ -10,12 +10,16 @@
         "removeComments": true,
         "preserveConstEnums": true,
         "suppressImplicitAnyIndexErrors": true,
-        "outDir": "lib"
+        "outDir": "lib",
+        "lib": [
+            "es6",
+            "dom",
+            "scripthost"
+        ]
     },
     "include": [
         "./src/**/*",
-        "./test/**/*",
-        "./typings/index.d.ts"
+        "./test/**/*"
     ],
     "atom": {
         "rewriteTsconfig": false
