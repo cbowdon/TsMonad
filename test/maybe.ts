@@ -146,7 +146,7 @@ describe('Maybe', () => {
         assert.throws(() => Maybe.nothing<number>().valueOrThrow());
         let err = new Error('boo');
         assert.throws(() => Maybe.nothing<number>().valueOrThrow(err),
-                      e => e === err);
+            (e: Error) => e === err);
     });
 
     it('sequence', () => {
