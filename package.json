@@ -34,9 +34,12 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@types/mocha": "^2.2.40",
+    "@types/node": "^7.0.12",
+    "@types/underscore": "^1.8.0",
     "assert": "^1.4.1",
     "mocha": "^2.5.3",
-    "typescript": "^1.8.10",
+    "typescript": "2.2.2",
     "underscore": "^1.8.3",
     "webpack": "^1.13.1"
   }

@@ -4,24 +4,22 @@
         "module": "commonjs",
         "moduleResolution": "node",
         "isolatedModules": false,
-        "jsx": "react",
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
         "declaration": true,
-        "noImplicitAny": false,
+        "noImplicitAny": true,
         "noImplicitUseStrict": false,
         "removeComments": true,
-        "noLib": false,
         "preserveConstEnums": true,
-        "suppressImplicitAnyIndexErrors": true,
-        "outDir": "lib"
+        "outDir": "lib",
+        "lib": [
+            "es6",
+            "dom",
+            "scripthost"
+        ]
     },
-    "exclude": [
-        "node_modules",
-        "typings/lib"
+    "include": [
+        "./src/**/*",
+        "./test/**/*"
     ],
-    "compileOnSave": true,
-    "buildOnSave": false,
     "atom": {
         "rewriteTsconfig": false
     }
