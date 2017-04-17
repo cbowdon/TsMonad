@@ -1,4 +1,5 @@
 import { Monad, Functor, Eq, eq } from './monad'
+import { isNull, isUndefined } from 'underscore'
 
 /**
  * @name MaybeType
@@ -105,10 +106,10 @@ export class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
      * @returns {Maybe<T>} A Maybe object containing the value passed in input. If t is null
      *     or undefined, the Maybe object is filled with Nothing.
      */
-    static maybe<T>(t: T) {
-        return t === null || t === undefined ?
-            new Maybe<T>(MaybeType.Nothing) :
-            new Maybe<T>(MaybeType.Just, t);
+    static maybe<T>(t?: T | null): Maybe<T> {
+        return t === null || t === undefined
+          ? new Maybe<T>(MaybeType.Nothing) 
+          : new Maybe<T>(MaybeType.Just, t);
     }
 
     /**
