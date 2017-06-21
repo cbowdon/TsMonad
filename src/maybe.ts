@@ -30,10 +30,7 @@ export interface MaybePatterns<T,U> {
 }
 
 // ditto, but optional
-export interface OptionalMaybePatterns<T,U> {
-    just?: (t: T) => U;
-    nothing?: () => U;
-}
+export type OptionalMaybePatterns<T,U> = Partial<MaybePatterns<T,U>>
 
 /**
  * @name maybe
@@ -319,12 +316,12 @@ export class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
      *     original value, so is meant for running functions with side-effects.
      * @methodOf Maybe#
      * @public
-     * @param {OptionalMaybePatterns<T, U>} pattern Object containing the
+     * @param {Partial<MaybePatterns<T, U>>} pattern Object containing the
      *     functions to applied on each Maybe type.
      * @return The original Maybe value.
-     * @see OptionalMaybePatterns#
+     * @see MaybePatterns#
      */
-    do(patterns: OptionalMaybePatterns<T, void> = {}): Maybe<T> {
+    do(patterns: Partial<MaybePatterns<T, void>> = {}): Maybe<T> {
         let noop_pattern = {
             just: (t: T) => {},
             nothing: () => {},
