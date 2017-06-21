@@ -20,6 +20,18 @@ describe('Maybe', () => {
             }));
     });
 
+    it('isJust', () => {
+        assert.ok(Maybe.isJust(Maybe.just(10)));
+
+        assert.strictEqual(Maybe.isJust(Maybe.nothing()), false);
+    });
+
+    it('isNothing', () => {
+        assert.ok(Maybe.isNothing(Maybe.nothing()));
+
+        assert.strictEqual(Maybe.isNothing(Maybe.just(10)), false);
+    });
+
     it('Do', () => {
 
         assert.throws(() =>
