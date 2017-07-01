@@ -1,5 +1,4 @@
 import { Monad, Functor, Eq, eq } from './monad'
-import { isNull, isUndefined } from 'underscore'
 
 /**
  * @name MaybeType
