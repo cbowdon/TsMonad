@@ -107,7 +107,7 @@ export class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
      *     or undefined, the Maybe object is filled with Nothing.
      */
     static maybe<T>(t?: T): Maybe<T> {
-        const or = (a: (fn: any) => boolean, b: (fn: any) => boolean) => 
+        const or = (a: (x: T) => boolean, b: (y: T) => boolean) => 
           a || b;
 
         const eitherNil = or(isNull, isUndefined);
