@@ -141,6 +141,38 @@ export class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
     }
 
     /**
+     *
+     * @name isJust
+     * @description Helper function to check whether a Maybe is of the
+     *     Just type.
+     * @methodOf Maybe#
+     * @static
+     * @param {Maybe<T>} The value to check.
+     * @returns {boolean} A boolean representing whether the param was
+     *     of the Just type.
+     */
+    static isJust<T>(t: Maybe<T>): boolean {
+        return t.type === MaybeType.Just
+    }
+
+
+    /**
+     *
+     * @name isNothing
+     * @description Helper function to check whether a Maybe is of the
+     *     Nothing type.
+     * @methodOf Maybe#
+     * @static
+     * @param {Maybe<T>} The value to check.
+     * @returns {boolean} A boolean representing whether the param was
+     *     of the Nothing type.
+     */
+    static isNothing<T>(t: Maybe<T>): boolean {
+        return t.type === MaybeType.Nothing
+    }
+
+
+    /**
      * @name unit
      * @description Wrap an object inside a Maybe.
      * @public
