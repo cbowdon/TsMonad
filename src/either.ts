@@ -29,10 +29,7 @@ export interface EitherPatterns<L,R,T> {
 }
 
 // ditto, but optional
-export interface OptionalEitherPatterns<L,R,T> {
-    left?: (l: L) => T;
-    right?: (r: R) => T;
-}
+export type OptionalEitherPatterns<L,R,T> = Partial<EitherPatterns<L,R,T>>
 
 function exists<T>(t: T) {
     return t !== null && t !== undefined;
@@ -234,12 +231,12 @@ export class Either<L,R> implements Monad<R>, Functor<R>, Eq<Either<L,R>> {
      *     original value, so is meant for running functions with side-effects.
      * @methodOf Either#
      * @public
-     * @param {OptionalEitherPatterns<T, U>} pattern Object containing the
+     * @param {Partial<EitherPatterns<T, U>>} pattern Object containing the
      *     functions to applied on each Either type.
      * @return The original Either value.
-     * @see OptionalEitherPatterns#
+     * @see EitherPatterns#
      */
-    do(patterns: OptionalEitherPatterns<L, R, void> = {}): Either<L, R> {
+    do(patterns: Partial<EitherPatterns<L, R, void>> = {}): Either<L, R> {
         let noop_pattern = {
             left: (l: L) => {},
             right: (r: R) => {},
