@@ -107,8 +107,9 @@ describe('Either', () => {
                 right: n => n === 123
             }));
 
-        assert.throws(() => either('not both', 123), /both/);
-        assert.throws(() => either<string,number>(), /neither/);
+        // TypeScript will not allow followings.
+        // assert.throws(() => either('not both', 123), /both/);
+        // assert.throws(() => either<string,number>(), /neither/);
     });
 
 })

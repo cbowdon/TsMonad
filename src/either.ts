@@ -29,9 +29,9 @@ export interface EitherPatterns<L,R,T> {
 }
 
 // ditto, but optional
-export type OptionalEitherPatterns<L,R,T> = Partial<EitherPatterns<L,R,T>>
+export type OptionalEitherPatterns<L,R,T> = Partial<EitherPatterns<L,R,T>>;
 
-function exists<T>(t: T) {
+function exists(t: any) {
     return t !== null && t !== undefined;
 }
 
@@ -46,7 +46,9 @@ function exists<T>(t: T) {
  *     parameter.
  * @see Either#
  */
-export function either<L,R>(l?: L, r?: R) {
+export function either<L,R>(l: L, r?: null | undefined): Either<L,R>;
+export function either<L,R>(l: null | undefined, r: R): Either<L,R>;
+export function either<L,R>(l?: L, r?: R): Either<L,R> {
     if (exists(l) && exists(r)) {
         throw new TypeError('Cannot construct an Either with both a left and a right');
     }
@@ -79,6 +81,8 @@ export class Either<L,R> implements Monad<R>, Functor<R>, Eq<Either<L,R>> {
      * @param {L} l The Left value (optional).
      * @param {R} l The Right value (optional).
      */
+    constructor(type: EitherType.Left, l: L, r?: null | undefined);
+    constructor(type: EitherType.Right, l: null | undefined, r: R);
     constructor(private type: EitherType,
                 private l?: L,
                 private r?: R) {}
@@ -259,12 +263,12 @@ export class Either<L,R> implements Monad<R>, Functor<R>, Eq<Either<L,R>> {
      *     original value, so is meant for running functions with side-effects.
      * @methodOf Either#
      * @public
-     * @param {Partial<EitherPatterns<T, U>>} pattern Object containing the
+     * @param {OptionalEitherPatterns<L, R, void>} patterns Object containing the
      *     functions to applied on each Either type.
      * @return The original Either value.
      * @see EitherPatterns#
      */
-    do(patterns: Partial<EitherPatterns<L, R, void>> = {}): Either<L, R> {
+    do(patterns: OptionalEitherPatterns<L, R, void> = {}): Either<L, R> {
         let noop_pattern = {
             left: (l: L) => {},
             right: (r: R) => {},
