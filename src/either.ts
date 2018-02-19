@@ -31,7 +31,7 @@ export interface EitherPatterns<L,R,T> {
 // ditto, but optional
 export type OptionalEitherPatterns<L,R,T> = Partial<EitherPatterns<L,R,T>>
 
-function exists<T>(t: T) {
+function exists(t: any) {
     return t !== null && t !== undefined;
 }
 
