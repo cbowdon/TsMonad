@@ -19,6 +19,18 @@ describe('Either', () => {
             }));
     });
 
+    it('isLeft', () => {
+        assert.ok(Either.left(2).isLeft());
+
+        assert.strictEqual(Either.right(2).isLeft(), false);
+    });
+
+    it('isRight', () => {
+        assert.ok(Either.right(2).isRight());
+
+        assert.strictEqual(Either.left(2).isRight(), false);
+    });
+
     it('Do', () => {
 
         assert.throws(() =>

@@ -108,6 +108,34 @@ export class Either<L,R> implements Monad<R>, Functor<R>, Eq<Either<L,R>> {
     }
 
     /**
+     *
+     * @name isLeft
+     * @description Helper function to check whether this Either has a
+     *     left.
+     * @methodOf Either#
+     * @static
+     * @returns {boolean} A boolean representing whether this Either has
+     *     a left.
+     */
+    isLeft() {
+        return this.caseOf({left: () => true, right: () => false});
+    }
+
+    /**
+     *
+     * @name isRight
+     * @description Helper function to check whether this Either has a
+     *     right.
+     * @methodOf Either#
+     * @static
+     * @returns {boolean} A boolean representing whether this Either has
+     *     a right.
+     */
+    isRight() {
+        return this.caseOf({left: () => false, right: () => true});
+    }
+
+    /**
      * @name unit
      * @description Wrap a value inside an Either Right object.
      * @methodOf Either#
