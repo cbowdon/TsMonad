@@ -30,7 +30,7 @@ export interface MaybePatterns<T,U> {
 }
 
 // ditto, but optional
-export type OptionalMaybePatterns<T,U> = Partial<MaybePatterns<T,U>>
+export type OptionalMaybePatterns<T,U> = Partial<MaybePatterns<T,U>>;
 
 /**
  * @name maybe
@@ -41,7 +41,7 @@ export type OptionalMaybePatterns<T,U> = Partial<MaybePatterns<T,U>>
  *     or undefined, the Maybe object is filled with Nothing.
  * @see Maybe#
  */
-export function maybe<T>(t: T) {
+export function maybe<T>(t?: T | null | undefined) {
     return Maybe.maybe(t);
 }
 
@@ -60,8 +60,10 @@ export class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
      * @param {MaybeType} type Indicates if the Maybe content is a Just or a Nothing.
      * @param {T} value The value to wrap (optional).
      */
+    constructor(type: MaybeType.Just, value: T);
+    constructor(type: MaybeType.Nothing, value?: null | undefined);
     constructor(private type: MaybeType,
-                private value?: T) {}
+                private value?: T | null | undefined) {}
 
     /**
      * @name sequence
@@ -102,7 +104,7 @@ export class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
      * @returns {Maybe<T>} A Maybe object containing the value passed in input. If t is null
      *     or undefined, the Maybe object is filled with Nothing.
      */
-    static maybe<T>(t?: T | null): Maybe<T> {
+    static maybe<T>(t?: T | null | undefined): Maybe<T> {
         return t === null || t === undefined
           ? new Maybe<T>(MaybeType.Nothing) 
           : new Maybe<T>(MaybeType.Just, t);
@@ -348,12 +350,12 @@ export class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
      *     original value, so is meant for running functions with side-effects.
      * @methodOf Maybe#
      * @public
-     * @param {Partial<MaybePatterns<T, U>>} pattern Object containing the
+     * @param {OptionalMaybePatterns<T, void>} pattern Object containing the
      *     functions to applied on each Maybe type.
      * @return The original Maybe value.
      * @see MaybePatterns#
      */
-    do(patterns: Partial<MaybePatterns<T, void>> = {}): Maybe<T> {
+    do(patterns: OptionalMaybePatterns<T, void> = {}): Maybe<T> {
         let noop_pattern = {
             just: (t: T) => {},
             nothing: () => {},
