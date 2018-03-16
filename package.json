@@ -2,19 +2,18 @@
   "name": "tsmonad",
   "version": "0.8.0",
   "description": "TsMonad - fun-size monads library for TypeScript",
-  "main": "./dist/tsmonad.js",
+  "main": "./lib/src/index",
   "typings": "./lib/src/index",
   "files": [
-    "dist",
-    "lib/src/*.d.ts",
+    "lib/src/",
     "LICENSE-MIT",
     "README.md"
   ],
   "directories": {},
   "scripts": {
-    "clean": "rm -rf dist lib",
+    "clean": "rm -rf lib",
     "prebuild": "npm run test",
-    "build": "webpack lib/src/index.js dist/tsmonad.js -p --devtool source-map --output-library-target umd",
+    "build": "",
     "pretest": "npm run clean && tsc",
     "prepublish": "npm run build",
     "test": "mocha lib/test"
@@ -39,8 +38,7 @@
     "@types/underscore": "^1.8.0",
     "assert": "^1.4.1",
     "mocha": "^2.5.3",
-    "typescript": "2.2.2",
-    "underscore": "^1.8.3",
-    "webpack": "^1.13.1"
+    "typescript": "2.7.2",
+    "underscore": "^1.8.3"
   }
 }
