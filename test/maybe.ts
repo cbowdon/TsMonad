@@ -171,7 +171,7 @@ describe('Maybe', () => {
             nothing: () => false
         }));
 
-        assert.ok(Maybe.sequence<string|number>({
+        assert.ok(Maybe.sequence({
             num: Maybe.just(10),
             str: Maybe.just('union types')
         }).caseOf({
@@ -179,7 +179,7 @@ describe('Maybe', () => {
             nothing: () => false
         }));
 
-        assert.ok(Maybe.sequence<any>({
+        assert.ok(Maybe.sequence({
             num: Maybe.just(10),
             str: Maybe.just('dynamic types')
         }).caseOf({

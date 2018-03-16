@@ -91,10 +91,10 @@ user.getLikesCookies().valueOrCompute(() => expensiveCalculation());
 user.getLikesCookies().valueOrThrow(new Error());
 
 // Maybe.just({ three: 3, hi: 'hi'})
-Maybe.sequence<number|string>({ three: Maybe.just(3), hi: Maybe.just('hi') });
+Maybe.sequence({ three: Maybe.just(3), hi: Maybe.just('hi') });
 
 // Maybe.nothing
-Maybe.sequence<number>({ three: Maybe.just(3), hi: Maybe.nothing() });
+Maybe.sequence{ three: Maybe.just(3), hi: Maybe.nothing() });
 ```
 
 ### General Either usage

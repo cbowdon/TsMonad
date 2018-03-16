@@ -71,17 +71,17 @@ export class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
      * @param {{[id: string]: Maybe<T>}} t The value to unwrap Maybe values from.
      * @returns {Maybe<{[id: string]: T}>} A Maybe object containing the value passed in input with fields unwrapped from Maybes.
      */
-    static sequence<T>(t: {[k: string]: Maybe<T>}): Maybe<{[k: string]: T}> {
-        if (Object.keys(t).filter(k => t[k].type === MaybeType.Nothing).length) {
-            return Maybe.nothing<{[k: string]: T}>();
+    static sequence<T extends object>(t: {[k in keyof T]: Maybe<T[k]>}): Maybe<{[k in keyof T]: T[k]}> {
+        if ((Object.keys(t) as Array<keyof T>).filter(k => t[k].type === MaybeType.Nothing).length) {
+            return Maybe.nothing<T>();
         }
-        var result: {[k: string]: any} = {};
+        var result: Partial<T> = {};
         for (var k in t) {
             if (t.hasOwnProperty(k)) {
                 result[k] = t[k].value;
             }
         }
-        return Maybe.just(result);
+        return Maybe.just(result as T);
     }
 
     /**
@@ -91,7 +91,7 @@ export class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
      * @static
      * @see Maybe#sequence
      */
-    static all = (t: {[k: string]: Maybe<any>}) => Maybe.sequence<any>(t);
+    static all = <T extends object>(t: {[k in keyof T]: Maybe<T[k]>}) => Maybe.sequence<any>(t);
 
     /**
      * @name maybe
