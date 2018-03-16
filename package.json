@@ -21,7 +21,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --st"
+      "pre-commit": "pretty-quick --staged"
     }
   },
   "repository": {
