@@ -10,18 +10,27 @@ describe('Maybe', () => {
         const bJust = Maybe.just("2");
         const bNothing = Maybe.nothing<number>();
 
+        assert.ok(Maybe.run(function* () {
+            const x = yield a;
+            const y = yield bJust;
+            return x + parseInt(y); // return a "normal" value
+        }).caseOf({
+            just: x => x === 3,
+            nothing: () => false
+        }));
+
         assert.ok(Maybe.run<number>(function* () {
-            let x = yield a;
-            let y = yield bJust;
-            return x + parseInt(y);
+            const x = yield a;
+            const y = yield bJust;
+            return Maybe.maybe(x + parseInt(y)); // explicitly return a Maybe<T>
         }).caseOf({
             just: x => x === 3,
             nothing: () => false
         }));
 
         assert.ok(Maybe.run(function* () {
-            let x = yield a;
-            let y = yield bNothing;
+            const x = yield a;
+            const y = yield bNothing;
             return x + y;
         }).caseOf({
             just: x => false,
