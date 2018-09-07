@@ -170,6 +170,30 @@ export class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
 
 
     /**
+     * @name run
+     * @description Runs a generator function imitating "do-notation" and yielding a Maybe<T>
+     * @methodOf Maybe#
+     * @static
+     * @param {() => IterableIterator<Maybe<R>>} genFun Generator function
+     * @returns {Maybe<T>}
+     */
+    static run<T>(genFun: () => IterableIterator<Maybe<any>>): Maybe<T> {
+        const gen = genFun();
+        function step(value?: any): Maybe<T> {
+            const result = gen.next(value);
+            if (result.done) {
+                const val: any = result.value;
+                if (val instanceof Maybe) {
+                    return val;
+                }
+                return Maybe.just(val);
+            }
+            return result.value.bind(step);
+        }
+        return step();
+    }
+
+    /**
      * @name unit
      * @description Wrap an object inside a Maybe.
      * @public
@@ -192,7 +216,7 @@ export class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
      *     a Maybe object.
      * @see Monad#bind
      */
-    bind<U>(f: (t: T) => Maybe<U>) {
+    bind<U>(f: (t: T) => Maybe<U>): Maybe<U> {
         return this.type === MaybeType.Just ?
             f(this.value) :
             Maybe.nothing<U>();

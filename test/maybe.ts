@@ -5,6 +5,30 @@ import * as assert from 'assert'
 
 describe('Maybe', () => {
 
+    it('Run', () => {
+        const a = Maybe.just(1);
+        const bJust = Maybe.just("2");
+        const bNothing = Maybe.nothing<number>();
+
+        assert.ok(Maybe.run<number>(function* () {
+            let x = yield a;
+            let y = yield bJust;
+            return x + parseInt(y);
+        }).caseOf({
+            just: x => x === 3,
+            nothing: () => false
+        }));
+
+        assert.ok(Maybe.run(function* () {
+            let x = yield a;
+            let y = yield bNothing;
+            return x + y;
+        }).caseOf({
+            just: x => false,
+            nothing: () => true
+        }));
+    });
+
     it('Case of', () => {
 
         assert.ok(Maybe.just(10)
