@@ -14,7 +14,7 @@
   "scripts": {
     "clean": "rm -rf dist lib",
     "prebuild": "npm run test",
-    "build": "webpack lib/src/index.js dist/tsmonad.js -p --devtool source-map --output-library-target umd",
+    "build": "webpack --mode production lib/src/index.js -o dist/tsmonad.js -p --devtool source-map --output-library-target umd",
     "pretest": "npm run clean && tsc",
     "prepublish": "npm run build",
     "test": "mocha lib/test"
@@ -34,13 +34,14 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/mocha": "^2.2.40",
-    "@types/node": "^7.0.12",
-    "@types/underscore": "^1.8.0",
-    "assert": "^1.4.1",
-    "mocha": "^2.5.3",
-    "typescript": "2.2.2",
-    "underscore": "^1.8.3",
-    "webpack": "^1.13.1"
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^13.7.7",
+    "@types/underscore": "^1.9.4",
+    "assert": "^2.0.0",
+    "mocha": "^7.1.0",
+    "typescript": "^3.8.3",
+    "underscore": "^1.9.2",
+    "webpack": "^4.42.0",
+    "webpack-cli": "^3.3.11"
   }
 }
