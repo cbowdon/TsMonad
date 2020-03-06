@@ -180,6 +180,12 @@ export class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
    */
 
   unit<U>(u: U): Maybe<U> {
+    return Maybe.unit<U>(u); // Slight deviation from Haskell, since sadly null does exist in JS
+  }
+
+  // Duplicate with a static definition - interface will complain if there isn't an instance method called unit
+
+  static unit<U>(u: U): Maybe<U> {
     return Maybe.maybe<U>(u); // Slight deviation from Haskell, since sadly null does exist in JS
   }
 
@@ -208,6 +214,10 @@ export class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
    * @see Monad#of
    */
   of = this.unit;
+
+  // Duplicate with a static definition - interface will complain if there isn't an instance method called of
+
+  static of = Maybe.unit;
 
   /**
    * @name chain
