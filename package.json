@@ -14,7 +14,7 @@
   "scripts": {
     "clean": "rm -rf dist lib",
     "prebuild": "npm run test",
-    "build": "webpack --mode production lib/src/index.js -o dist/tsmonad.js -p --devtool source-map --output-library-target umd",
+    "build": "webpack --mode production lib/src/index.js -o dist/tsmonad.js -p --devtool source-map --globalObject 'this' --output-library-target umd",
     "pretest": "npm run clean && tsc",
     "prepublish": "npm run build",
       "test": "mocha lib/test",
