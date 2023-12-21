@@ -1,37 +1,40 @@
 {
-  "name": "@magda/tsmonad",
-  "version": "0.9.0",
-  "description": "TsMonad - fun-size monads library for TypeScript",
-  "type": "module",
-  "typings": "./dist/index.d.ts",
-  "directories": {},
-  "scripts": {
-    "clean": "rm -rf dist",
-    "build": "yarn clean && tsc -b",
-    "pretest": "yarn build",
-    "test": "mocha dist/test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/magda-io/TsMonad.git"
-  },
-  "keywords": [
-    "typescript",
-    "monad",
-    "functional"
-  ],
-  "author": {
-    "name": "Chris Bowdon",
-    "url": "https://github.com/cbowdon"
-  },
-  "license": "MIT",
-  "devDependencies": {
-    "@types/mocha": "^10.0.6",
-    "@types/node": "^18.11.9",
-    "@types/underscore": "^1.8.0",
-    "assert": "^2.1.0",
-    "mocha": "^10.2.0",
-    "typescript": "5.3.3",
-    "underscore": "^1.13.6"
-  }
+    "name": "@magda/tsmonad",
+    "version": "0.9.0",
+    "description": "TsMonad - fun-size monads library for TypeScript",
+    "type": "module",
+    "exports": {
+        "import": "./dist/index.js"
+    },
+    "typings": "./dist/index.d.ts",
+    "directories": {},
+    "scripts": {
+        "clean": "rm -rf dist",
+        "build": "yarn clean && tsc -b",
+        "pretest": "yarn build",
+        "test": "mocha dist/test"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/magda-io/TsMonad.git"
+    },
+    "keywords": [
+        "typescript",
+        "monad",
+        "functional"
+    ],
+    "author": {
+        "name": "Chris Bowdon",
+        "url": "https://github.com/cbowdon"
+    },
+    "license": "MIT",
+    "devDependencies": {
+        "@types/mocha": "^10.0.6",
+        "@types/node": "^18.11.9",
+        "@types/underscore": "^1.8.0",
+        "assert": "^2.1.0",
+        "mocha": "^10.2.0",
+        "typescript": "5.3.3",
+        "underscore": "^1.13.6"
+    }
 }

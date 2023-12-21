@@ -1,0 +1,30 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+env:
+  REPO_NAME: magda-auth-oidc
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - run: yarn install
+      - run: yarn build
+      - run: yarn test
+      
+      - name: publish NPM package
+        run: |
+          npm config set @magda:registry https://registry.npmjs.org/
+          npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
+          npm publish --access public
