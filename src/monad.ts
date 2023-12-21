@@ -1,4 +1,3 @@
-
 /**
  * @name eq
  * @description Compare two objects :
@@ -15,7 +14,7 @@ export function eq(a: any, b: any) {
     if (a === b) {
         return true;
     }
-    if (typeof a.equals === 'function') {
+    if (typeof a.equals === "function") {
         return a.equals(b);
     }
     if (a.length > 0 && a.length === b.length) {
@@ -136,4 +135,3 @@ interface MonadPlus<T> extends Monad<T> {
     mzero: Monad<T>;
     mplus(t: Monad<T>): Monad<T>;
 }
-

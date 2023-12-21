@@ -1,4 +1,4 @@
-import { Monad, Functor, Eq, eq } from './monad'
+import { Monad, Functor, Eq, eq } from "./monad.js";
 
 /**
  * @name WriterPatterns
@@ -6,7 +6,7 @@ import { Monad, Functor, Eq, eq } from './monad'
  *     callback.
  * @see Writer#
  */
-export interface WriterPatterns<S,T,U> {
+export interface WriterPatterns<S, T, U> {
     /**
      * @name writer
      * @description Function to handle the Writer content.
@@ -25,7 +25,7 @@ export interface WriterPatterns<S,T,U> {
  *     and the wrapped value.
  * @see Writer#
  */
-export function writer<S,T>(story: S[], value: T) {
+export function writer<S, T>(story: S[], value: T) {
     return Writer.writer(story, value);
 }
 
@@ -35,8 +35,7 @@ export function writer<S,T>(story: S[], value: T) {
  *     values are combined into one log value that then gets attached to
  *     the result.
  */
-export class Writer<S,T> implements Monad<T>, Eq<Writer<S,T>> {
-
+export class Writer<S, T> implements Monad<T>, Eq<Writer<S, T>> {
     /**
      * @description Build a Writer object. For internal use only.
      * @constructor
@@ -56,7 +55,7 @@ export class Writer<S,T> implements Monad<T>, Eq<Writer<S,T>> {
      * @returns {Writer<S, T>} A Writer object containing the collection of logs
      *     and the wrapped value.
      */
-    static writer<S,T>(story: S[], value: T) {
+    static writer<S, T>(story: S[], value: T) {
         return new Writer(story, value);
     }
 
@@ -98,7 +97,7 @@ export class Writer<S,T> implements Monad<T>, Eq<Writer<S,T>> {
      *     Writer object.
      * @see Monad#bind
      */
-    bind<U>(f: (t: T) => Writer<S,U>): Writer<S,U> {
+    bind<U>(f: (t: T) => Writer<S, U>): Writer<S, U> {
         var wu = f(this.value),
             newStory = this.story.concat(wu.story);
         return new Writer(newStory, wu.value);
@@ -135,7 +134,7 @@ export class Writer<S,T> implements Monad<T>, Eq<Writer<S,T>> {
      * @see Functor#fmap
      */
     fmap<U>(f: (t: T) => U) {
-        return this.bind(v => this.unit<U>(f(v)));
+        return this.bind((v) => this.unit<U>(f(v)));
     }
 
     /**
@@ -170,7 +169,7 @@ export class Writer<S,T> implements Monad<T>, Eq<Writer<S,T>> {
      *     WriterPatterns interface.
      * @see WriterPatterns#
      */
-    caseOf<U>(patterns: WriterPatterns<S,T,U>) {
+    caseOf<U>(patterns: WriterPatterns<S, T, U>) {
         return patterns.writer(this.story, this.value);
     }
 
@@ -185,7 +184,7 @@ export class Writer<S,T> implements Monad<T>, Eq<Writer<S,T>> {
      *     are equals, false otherwise.
      * @see Eq#equals
      */
-    equals(other: Writer<S,T>) {
+    equals(other: Writer<S, T>) {
         var i: number,
             sameStory: boolean = true;
         for (i = 0; i < this.story.length; i += 1) {

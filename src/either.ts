@@ -1,10 +1,13 @@
-import { Monad, Functor, Eq, eq } from './monad'
+import { Monad, Functor, Eq, eq } from "./monad.js";
 
 /**
  * @name EitherType
  * @description Enumerate the different types contained by an Either object.
  */
-export enum EitherType { Left, Right }
+export enum EitherType {
+    Left,
+    Right,
+}
 
 /**
  * @name EitherPatterns
@@ -12,7 +15,7 @@ export enum EitherType { Left, Right }
  *     for Left and Right.
  * @see Either#
  */
-export interface EitherPatterns<L,R,T> {
+export interface EitherPatterns<L, R, T> {
     /**
      * @name left
      * @description Function to handle the Left.
@@ -29,7 +32,7 @@ export interface EitherPatterns<L,R,T> {
 }
 
 // ditto, but optional
-export type OptionalEitherPatterns<L,R,T> = Partial<EitherPatterns<L,R,T>>
+export type OptionalEitherPatterns<L, R, T> = Partial<EitherPatterns<L, R, T>>;
 
 function exists<T>(t: T) {
     return t !== null && t !== undefined;
@@ -46,18 +49,18 @@ function exists<T>(t: T) {
  *     parameter.
  * @see Either#
  */
-export function either<L,R>(l?: L, r?: R) {
+export function either<L, R>(l?: L, r?: R) {
     if (exists(l) && exists(r)) {
-        throw new TypeError('Cannot construct an Either with both a left and a right');
+        throw new TypeError("Cannot construct an Either with both a left and a right");
     }
     if (!exists(l) && !exists(r)) {
-        throw new TypeError('Cannot construct an Either with neither a left nor a right');
+        throw new TypeError("Cannot construct an Either with neither a left nor a right");
     }
     if (exists(l) && !exists(r)) {
-        return Either.left<L,R>(l);
+        return Either.left<L, R>(l);
     }
     if (!exists(l) && exists(r)) {
-        return Either.right<L,R>(r);
+        return Either.right<L, R>(r);
     }
 }
 
@@ -69,8 +72,7 @@ export function either<L,R>(l?: L, r?: R) {
  *     convention, the Left constructor is used to hold an error value and
  *     the Right constructor is used to hold a correct value.
  */
-export class Either<L,R> implements Monad<R>, Functor<R>, Eq<Either<L,R>> {
-
+export class Either<L, R> implements Monad<R>, Functor<R>, Eq<Either<L, R>> {
     /**
      * @description Build an Either object. For internal use only.
      * @constructor
@@ -79,9 +81,7 @@ export class Either<L,R> implements Monad<R>, Functor<R>, Eq<Either<L,R>> {
      * @param {L} l The Left value (optional).
      * @param {R} l The Right value (optional).
      */
-    constructor(private type: EitherType,
-                private l?: L,
-                private r?: R) {}
+    constructor(private type: EitherType, private l?: L, private r?: R) {}
 
     /**
      * @name left
@@ -91,11 +91,11 @@ export class Either<L,R> implements Monad<R>, Functor<R>, Eq<Either<L,R>> {
      * @param {L} l The Left value.
      * @returns {Either<L, R>} Either object containing a Left.
      */
-    static left<L,R>(l: L) {
-        return new Either<L,R>(EitherType.Left, l);
+    static left<L, R>(l: L) {
+        return new Either<L, R>(EitherType.Left, l);
     }
 
-        /**
+    /**
      * @name right
      * @description Helper function to build an Either with a Right.
      * @methodOf Either#
@@ -103,8 +103,8 @@ export class Either<L,R> implements Monad<R>, Functor<R>, Eq<Either<L,R>> {
      * @param {R} r The Right value.
      * @returns {Either<L, R>} Either object containing a Right.
      */
-    static right<L,R>(r: R) {
-        return new Either<L,R>(EitherType.Right, null, r);
+    static right<L, R>(r: R) {
+        return new Either<L, R>(EitherType.Right, null, r);
     }
 
     /**
@@ -118,7 +118,7 @@ export class Either<L,R> implements Monad<R>, Functor<R>, Eq<Either<L,R>> {
      *     a left.
      */
     isLeft() {
-        return this.caseOf({left: () => true, right: () => false});
+        return this.caseOf({ left: () => true, right: () => false });
     }
 
     /**
@@ -132,7 +132,7 @@ export class Either<L,R> implements Monad<R>, Functor<R>, Eq<Either<L,R>> {
      *     a right.
      */
     isRight() {
-        return this.caseOf({left: () => false, right: () => true});
+        return this.caseOf({ left: () => false, right: () => true });
     }
 
     /**
@@ -145,7 +145,7 @@ export class Either<L,R> implements Monad<R>, Functor<R>, Eq<Either<L,R>> {
      * @see Monad#unit
      */
     unit<T>(t: T) {
-        return Either.right<L,T>(t);
+        return Either.right<L, T>(t);
     }
 
     /**
@@ -158,10 +158,8 @@ export class Either<L,R> implements Monad<R>, Functor<R>, Eq<Either<L,R>> {
      *     an Either object.
      * @see Monad#bind
      */
-    bind<T>(f: (r: R) => Either<L,T>) {
-        return this.type === EitherType.Right ?
-            f(this.r) :
-            Either.left<L,T>(this.l);
+    bind<T>(f: (r: R) => Either<L, T>) {
+        return this.type === EitherType.Right ? f(this.r) : Either.left<L, T>(this.l);
     }
 
     /**
@@ -195,7 +193,7 @@ export class Either<L,R> implements Monad<R>, Functor<R>, Eq<Either<L,R>> {
      * @see Functor#fmap
      */
     fmap<T>(f: (r: R) => T) {
-        return this.bind(v => this.unit<T>(f(v)));
+        return this.bind((v) => this.unit<T>(f(v)));
     }
 
     /**
@@ -230,10 +228,8 @@ export class Either<L,R> implements Monad<R>, Functor<R>, Eq<Either<L,R>> {
      *     EitherPatterns interface.
      * @see EitherPatterns#
      */
-    caseOf<T>(pattern: EitherPatterns<L,R,T>) {
-        return this.type === EitherType.Right ?
-            pattern.right(this.r) :
-            pattern.left(this.l);
+    caseOf<T>(pattern: EitherPatterns<L, R, T>) {
+        return this.type === EitherType.Right ? pattern.right(this.r) : pattern.left(this.l);
     }
 
     /**
@@ -247,10 +243,12 @@ export class Either<L,R> implements Monad<R>, Functor<R>, Eq<Either<L,R>> {
      *     false otherwise.
      * @see Eq#equals
      */
-    equals(other: Either<L,R>) {
-        return other.type === this.type &&
+    equals(other: Either<L, R>) {
+        return (
+            other.type === this.type &&
             ((this.type === EitherType.Left && eq(other.l, this.l)) ||
-            (this.type === EitherType.Right && eq(other.r, this.r)));
+                (this.type === EitherType.Right && eq(other.r, this.r)))
+        );
     }
 
     /**
@@ -274,4 +272,3 @@ export class Either<L,R> implements Monad<R>, Functor<R>, Eq<Either<L,R>> {
         return this;
     }
 }
-

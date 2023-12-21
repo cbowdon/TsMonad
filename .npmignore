@@ -1,4 +1,3 @@
-Gruntfile.js
-tsd.json
-typings/
-test/
+src
+dist/test
+tsconfig.json

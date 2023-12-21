@@ -1,27 +1,19 @@
 {
   "name": "tsmonad",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "TsMonad - fun-size monads library for TypeScript",
-  "main": "./dist/tsmonad.js",
-  "typings": "./lib/src/index",
-  "files": [
-    "dist",
-    "lib/src/*.d.ts",
-    "LICENSE-MIT",
-    "README.md"
-  ],
+  "type": "module",
+  "typings": "./dist/index.d.ts",
   "directories": {},
   "scripts": {
-    "clean": "rm -rf dist lib",
-    "prebuild": "npm run test",
-    "build": "webpack lib/src/index.js dist/tsmonad.js -p --devtool source-map --output-library-target umd",
-    "pretest": "npm run clean && tsc",
-    "prepublish": "npm run build",
-    "test": "mocha lib/test"
+    "clean": "rm -rf dist",
+    "build": "yarn clean && tsc -b",
+    "pretest": "yarn build",
+    "test": "mocha dist/test"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cbowdon/TsMonad.git"
+    "url": "https://github.com/magda-io/TsMonad.git"
   },
   "keywords": [
     "typescript",
@@ -34,13 +26,12 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/mocha": "^2.2.40",
-    "@types/node": "^7.0.12",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^18.11.9",
     "@types/underscore": "^1.8.0",
-    "assert": "^1.4.1",
-    "mocha": "^2.5.3",
-    "typescript": "2.2.2",
-    "underscore": "^1.8.3",
-    "webpack": "^1.13.1"
+    "assert": "^2.1.0",
+    "mocha": "^10.2.0",
+    "typescript": "5.3.3",
+    "underscore": "^1.13.6"
   }
 }

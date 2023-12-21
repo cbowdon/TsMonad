@@ -1,11 +1,14 @@
-import { Monad, Functor, Eq, eq } from './monad'
+import { Monad, Functor, Eq, eq } from "./monad.js";
 
 /**
  * @name MaybeType
  * @description Enumerate the different types contained by an Maybe object.
  * @see Maybe#
  */
-export enum MaybeType { Nothing, Just }
+export enum MaybeType {
+    Nothing,
+    Just,
+}
 
 /**
  * @name MaybePatterns
@@ -13,7 +16,7 @@ export enum MaybeType { Nothing, Just }
  *     for Just and Nothing.
  * @see Maybe#
  */
-export interface MaybePatterns<T,U> {
+export interface MaybePatterns<T, U> {
     /**
      * @name just
      * @description Function to handle the Just.
@@ -30,7 +33,7 @@ export interface MaybePatterns<T,U> {
 }
 
 // ditto, but optional
-export type OptionalMaybePatterns<T,U> = Partial<MaybePatterns<T,U>>
+export type OptionalMaybePatterns<T, U> = Partial<MaybePatterns<T, U>>;
 
 /**
  * @name maybe
@@ -52,7 +55,6 @@ export function maybe<T>(t: T) {
  *     (represented as Nothing).
  */
 export class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
-
     /**
      * @description Build a Maybe object. For internal use only.
      * @constructor
@@ -60,8 +62,7 @@ export class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
      * @param {MaybeType} type Indicates if the Maybe content is a Just or a Nothing.
      * @param {T} value The value to wrap (optional).
      */
-    constructor(private type: MaybeType,
-                private value?: T) {}
+    constructor(private type: MaybeType, private value?: T) {}
 
     /**
      * @name sequence
@@ -71,11 +72,11 @@ export class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
      * @param {{[id: string]: Maybe<T>}} t The value to unwrap Maybe values from.
      * @returns {Maybe<{[id: string]: T}>} A Maybe object containing the value passed in input with fields unwrapped from Maybes.
      */
-    static sequence<T>(t: {[k: string]: Maybe<T>}): Maybe<{[k: string]: T}> {
-        if (Object.keys(t).filter(k => t[k].type === MaybeType.Nothing).length) {
-            return Maybe.nothing<{[k: string]: T}>();
+    static sequence<T>(t: { [k: string]: Maybe<T> }): Maybe<{ [k: string]: T }> {
+        if (Object.keys(t).filter((k) => t[k].type === MaybeType.Nothing).length) {
+            return Maybe.nothing<{ [k: string]: T }>();
         }
-        var result: {[k: string]: any} = {};
+        var result: { [k: string]: any } = {};
         for (var k in t) {
             if (t.hasOwnProperty(k)) {
                 result[k] = t[k].value;
@@ -91,7 +92,7 @@ export class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
      * @static
      * @see Maybe#sequence
      */
-    static all = (t: {[k: string]: Maybe<any>}) => Maybe.sequence<any>(t);
+    static all = (t: { [k: string]: Maybe<any> }) => Maybe.sequence<any>(t);
 
     /**
      * @name maybe
@@ -103,9 +104,7 @@ export class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
      *     or undefined, the Maybe object is filled with Nothing.
      */
     static maybe<T>(t?: T | null): Maybe<T> {
-        return t === null || t === undefined
-          ? new Maybe<T>(MaybeType.Nothing) 
-          : new Maybe<T>(MaybeType.Just, t);
+        return t === null || t === undefined ? new Maybe<T>(MaybeType.Nothing) : new Maybe<T>(MaybeType.Just, t);
     }
 
     /**
@@ -120,7 +119,7 @@ export class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
      */
     static just<T>(t: T) {
         if (t === null || t === undefined) {
-            throw new TypeError('Cannot Maybe.just(null)');
+            throw new TypeError("Cannot Maybe.just(null)");
         }
         return new Maybe<T>(MaybeType.Just, t);
     }
@@ -149,9 +148,8 @@ export class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
      *     of the Just type.
      */
     static isJust<T>(t: Maybe<T>): boolean {
-        return t.type === MaybeType.Just
+        return t.type === MaybeType.Just;
     }
-
 
     /**
      *
@@ -165,9 +163,8 @@ export class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
      *     of the Nothing type.
      */
     static isNothing<T>(t: Maybe<T>): boolean {
-        return t.type === MaybeType.Nothing
+        return t.type === MaybeType.Nothing;
     }
-
 
     /**
      * @name unit
@@ -193,9 +190,7 @@ export class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
      * @see Monad#bind
      */
     bind<U>(f: (t: T) => Maybe<U>) {
-        return this.type === MaybeType.Just ?
-            f(this.value) :
-            Maybe.nothing<U>();
+        return this.type === MaybeType.Just ? f(this.value) : Maybe.nothing<U>();
     }
 
     /**
@@ -229,7 +224,7 @@ export class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
      * @see Functor#fmap
      */
     fmap<U>(f: (t: T) => U) {
-        return this.bind(v => this.unit<U>(f(v)));
+        return this.bind((v) => this.unit<U>(f(v)));
     }
 
     /**
@@ -265,9 +260,7 @@ export class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
      * @see MaybePatterns#
      */
     caseOf<U>(patterns: MaybePatterns<T, U>) {
-        return this.type === MaybeType.Just ?
-            patterns.just(this.value) :
-            patterns.nothing();
+        return this.type === MaybeType.Just ? patterns.just(this.value) : patterns.nothing();
     }
 
     /**
@@ -279,7 +272,7 @@ export class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
      * @return {Maybe<T>}
      */
     defaulting(defaultValue: T) {
-        return Maybe.just(this.valueOr(defaultValue))
+        return Maybe.just(this.valueOr(defaultValue));
     }
 
     /**
@@ -294,8 +287,7 @@ export class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
      * @see Eq#equals
      */
     equals(other: Maybe<T>) {
-        return other.type === this.type &&
-            (this.type === MaybeType.Nothing || eq(other.value, this.value));
+        return other.type === this.type && (this.type === MaybeType.Nothing || eq(other.value, this.value));
     }
 
     /**
@@ -308,10 +300,9 @@ export class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
      * Separate U type to allow Maybe.nothing().valueOr() to match
      * without explicitly typing Maybe.nothing.
      */
-    valueOr<U extends T>(defaultValue: U): T|U {
+    valueOr<U extends T>(defaultValue: U): T | U {
         return this.valueOrCompute(() => defaultValue);
     }
-
 
     /**
      * @name valueOrCompute
@@ -323,7 +314,7 @@ export class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
      * Separate U type to allow Maybe.nothing().valueOrCompute() to match
      * without explicitly typing Maybe.nothing.
      */
-    valueOrCompute<U extends T>(defaultValueFunction: () => U): T|U {
+    valueOrCompute<U extends T>(defaultValueFunction: () => U): T | U {
         return this.type === MaybeType.Just ? this.value : defaultValueFunction();
     }
 
@@ -339,7 +330,7 @@ export class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
         if (this.type === MaybeType.Just) {
             return this.value;
         }
-        throw (error || new Error('No value is available.'));
+        throw error || new Error("No value is available.");
     }
 
     /**
@@ -362,5 +353,4 @@ export class Maybe<T> implements Monad<T>, Functor<T>, Eq<Maybe<T>> {
         this.caseOf(merged);
         return this;
     }
-
 }
